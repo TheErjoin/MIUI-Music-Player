@@ -8,8 +8,8 @@
     <string name="recent">Недавние</string>
     <string name="all_songs">Все треки</string>
     <string name="tracks">Треки</string>
-    <string name="Performers">Исполнители</string>
-    <string name="Albums">Альбомы</string>
+    <string name="performers">Исполнители</string>
+    <string name="albums">Альбомы</string>
     <string name="packages">Папки</string>
     <!--endregion-->
 

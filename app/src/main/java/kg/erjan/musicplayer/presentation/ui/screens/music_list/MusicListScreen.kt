@@ -63,8 +63,8 @@ private fun MusicTabs() {
 
     val list = listOf(
         stringResource(R.string.tracks),
-        stringResource(R.string.Performers),
-        stringResource(R.string.Albums),
+        stringResource(R.string.performers),
+        stringResource(R.string.albums),
         stringResource(R.string.packages),
     )
 
