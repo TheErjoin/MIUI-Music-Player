@@ -1,4 +1,4 @@
-package kg.erjan.musicplayer.presentation.ui.screens.music_list
+package kg.erjan.musicplayer.presentation.ui.screens.home_music
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -21,12 +21,13 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.google.accompanist.pager.ExperimentalPagerApi
-import com.google.accompanist.pager.PagerState
-import com.google.accompanist.pager.pagerTabIndicatorOffset
-import com.google.accompanist.pager.rememberPagerState
+import com.google.accompanist.pager.*
 import kg.erjan.musicplayer.R
-import kg.erjan.musicplayer.presentation.ui.screens.music_list.components.MusicCard
+import kg.erjan.musicplayer.presentation.ui.screens.home_music.albums.AlbumsScreen
+import kg.erjan.musicplayer.presentation.ui.screens.home_music.components.MusicCard
+import kg.erjan.musicplayer.presentation.ui.screens.home_music.packages.PackagesScreen
+import kg.erjan.musicplayer.presentation.ui.screens.home_music.performers.PerformersScreen
+import kg.erjan.musicplayer.presentation.ui.screens.home_music.tracks_list.TracksScreen
 import kg.erjan.musicplayer.presentation.ui.theme.*
 import kotlinx.coroutines.launch
 
@@ -59,21 +60,46 @@ fun MusicListScreen() {
 @OptIn(ExperimentalPagerApi::class)
 @Composable
 private fun MusicTabs() {
-    val pagerState = rememberPagerState(initialPage = 3)
+    val pagerState = rememberPagerState(initialPage = 0)
 
-    Tabs(pagerState = pagerState)
-}
-
-@OptIn(ExperimentalPagerApi::class)
-@Composable
-private fun Tabs(pagerState: PagerState) {
-
-    val list = listOf(
+    val tabData = listOf(
         stringResource(R.string.tracks),
         stringResource(R.string.performers),
         stringResource(R.string.albums),
         stringResource(R.string.packages),
     )
+
+    Column {
+        Tabs(pagerState = pagerState,tabData = tabData)
+        MusicTabsScreen(pagerState = pagerState,tabData = tabData)
+    }
+}
+
+@OptIn(ExperimentalPagerApi::class)
+@Composable
+private fun MusicTabsScreen(pagerState: PagerState, tabData: List<String>) {
+    HorizontalPager(
+        count = tabData.size,
+        state = pagerState,
+    ) { page ->
+        Column(
+            modifier = Modifier.fillMaxSize(),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            when (page) {
+                0 -> TracksScreen()
+                1 -> PerformersScreen()
+                2 -> AlbumsScreen()
+                else -> PackagesScreen()
+            }
+        }
+    }
+}
+
+@OptIn(ExperimentalPagerApi::class)
+@Composable
+private fun Tabs(pagerState: PagerState, tabData: List<String>) {
 
     val scope = rememberCoroutineScope()
 
@@ -90,11 +116,11 @@ private fun Tabs(pagerState: PagerState) {
                 color = Grape
             )
         }) {
-        list.forEachIndexed { index, _ ->
+        tabData.forEachIndexed { index, _ ->
             Tab(
                 text = {
                     Text(
-                        text = list[index],
+                        text = tabData[index],
                         fontSize = 13.sp,
                         color = if (pagerState.currentPage == index) Color.White else Color.LightGray,
                         maxLines = 1,

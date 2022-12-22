@@ -4,7 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import kg.erjan.musicplayer.presentation.ui.screens.music_list.MusicListScreen
+import kg.erjan.musicplayer.presentation.ui.screens.home_music.MusicListScreen
 
 @Composable
 fun MainGraphNavigation(){
