@@ -11,6 +11,7 @@
     <string name="performers">Исполнители</string>
     <string name="albums">Альбомы</string>
     <string name="packages">Папки</string>
+    <string name="play_track_random_order">В случайном порядке</string>
     <!--endregion-->
 
 </resources>

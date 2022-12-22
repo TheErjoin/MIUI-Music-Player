@@ -27,7 +27,7 @@ import kg.erjan.musicplayer.presentation.ui.screens.home_music.albums.AlbumsScre
 import kg.erjan.musicplayer.presentation.ui.screens.home_music.components.MusicCard
 import kg.erjan.musicplayer.presentation.ui.screens.home_music.packages.PackagesScreen
 import kg.erjan.musicplayer.presentation.ui.screens.home_music.performers.PerformersScreen
-import kg.erjan.musicplayer.presentation.ui.screens.home_music.tracks_list.TracksScreen
+import kg.erjan.musicplayer.presentation.ui.screens.home_music.tracks.TracksScreen
 import kg.erjan.musicplayer.presentation.ui.theme.*
 import kotlinx.coroutines.launch
 
@@ -35,7 +35,7 @@ import kotlinx.coroutines.launch
 fun MusicListScreen() {
     Column(modifier = Modifier.padding(16.dp)) {
         Row(
-            verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(top = 6.dp)
+            verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(top = 2.dp)
         ) {
             DrawerSettings {
                 //TODO onClick nav to drawer
@@ -84,8 +84,6 @@ private fun MusicTabsScreen(pagerState: PagerState, tabData: List<String>) {
     ) { page ->
         Column(
             modifier = Modifier.fillMaxSize(),
-            verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally
         ) {
             when (page) {
                 0 -> TracksScreen()
