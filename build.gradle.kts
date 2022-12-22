@@ -5,5 +5,4 @@ plugins {
 
     // Hilt
     id(Plugins.Hilt.plugin) version Versions.dagger apply false
-    id("org.jetbrains.kotlin.jvm") version "1.7.20" apply false
 }

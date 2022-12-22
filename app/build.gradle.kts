@@ -51,6 +51,10 @@ android {
 
 dependencies {
 
+    //Module
+    implementation(project(":data"))
+    implementation(project(":domain"))
+
     // Kotlin
     implementation(Libraries.Coroutines.android)
 
@@ -75,6 +79,7 @@ dependencies {
     implementation(Libraries.Compose.navigation)
     implementation(Libraries.Compose.accompanistPager)
     implementation(Libraries.Compose.accompanistPagerIndicators)
+    implementation(Libraries.Compose.hiltNavigation)
 
     // Retrofit
     implementation(Libraries.Retrofit.retrofit)

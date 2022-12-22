@@ -6,6 +6,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -15,43 +16,58 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
+import kg.erjan.domain.entities.tracks.Tracks
 import kg.erjan.musicplayer.R
+import kg.erjan.musicplayer.presentation.extensions.collectUIState
 import kg.erjan.musicplayer.presentation.ui.theme.Grape
 import kg.erjan.musicplayer.presentation.ui.theme.SpanishGray
 
 @Composable
 fun TracksScreen() {
+    val viewModel = hiltViewModel<TracksViewModel>()
     Column(modifier = Modifier.padding(top = 12.dp)) {
         PlayRandomOrder()
         Spacer(modifier = Modifier.height(12.dp))
-        TrackList()
-    }
-}
-
-@Composable
-private fun TrackList() {
-    LazyColumn {
-        items(15) {
-            ItemTrack()
+        viewModel.trackState.collectUIState {
+            TrackList(it)
         }
     }
 }
 
 @Composable
-private fun ItemTrack() {
+private fun TrackList(tracks: List<Tracks>) {
+    LazyColumn {
+        items(
+            items = tracks
+        ) {
+            ItemTrack(onClick = { /*TODO onClick to song*/ }, it)
+        }
+    }
+}
+
+@Composable
+private fun ItemTrack(onClick: () -> Unit, tracks: Tracks) {
     Box(
         modifier = Modifier
             .fillMaxWidth()
             .padding(bottom = 14.dp)
+            .clickable(
+                interactionSource = MutableInteractionSource(),
+                indication = null
+            ) {
+                onClick()
+            }
     ) {
         Column(
             modifier = Modifier.align(Alignment.CenterStart)
         ) {
             Text(
-                text = "The Gong of Knockout",
+                text = tracks.nameTrack,
                 fontSize = 14.sp,
                 color = Color.White
             )
@@ -63,7 +79,11 @@ private fun ItemTrack() {
                 )
                 Spacer(modifier = Modifier.width(2.dp))
                 Text(
-                    text = "Fear and Loathing in Las Vegas",
+                    text = buildAnnotatedString {
+                        append(tracks.artistTrack)
+                        append("  |  ")
+                        append(tracks.albumTrack)
+                    },
                     fontSize = 12.sp,
                     color = SpanishGray
                 )
