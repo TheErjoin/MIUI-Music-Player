@@ -22,6 +22,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.google.accompanist.pager.ExperimentalPagerApi
+import com.google.accompanist.pager.PagerState
 import com.google.accompanist.pager.pagerTabIndicatorOffset
 import com.google.accompanist.pager.rememberPagerState
 import kg.erjan.musicplayer.R
@@ -51,7 +52,6 @@ fun MusicListScreen() {
             color = Color.White,
             fontWeight = FontWeight.Bold
         )
-        Spacer(modifier = Modifier.height(8.dp))
         MusicTabs()
     }
 }
@@ -61,10 +61,17 @@ fun MusicListScreen() {
 private fun MusicTabs() {
     val pagerState = rememberPagerState(initialPage = 3)
 
+    Tabs(pagerState = pagerState)
+}
+
+@OptIn(ExperimentalPagerApi::class)
+@Composable
+private fun Tabs(pagerState: PagerState) {
+
     val list = listOf(
         stringResource(R.string.tracks),
-        stringResource(R.string.Performers),
-        stringResource(R.string.Albums),
+        stringResource(R.string.performers),
+        stringResource(R.string.albums),
         stringResource(R.string.packages),
     )
 
@@ -85,13 +92,13 @@ private fun MusicTabs() {
         }) {
         list.forEachIndexed { index, _ ->
             Tab(
-                modifier = Modifier.width(150.dp),
                 text = {
                     Text(
                         text = list[index],
                         fontSize = 13.sp,
                         color = if (pagerState.currentPage == index) Color.White else Color.LightGray,
                         maxLines = 1,
+                        modifier = Modifier.requiredWidth(130.dp),
                     )
                 },
                 selected = pagerState.currentPage == index,
