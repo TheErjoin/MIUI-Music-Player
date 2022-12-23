@@ -1,4 +1,4 @@
-package kg.erjan.musicplayer.presentation.ui.screens.home_music
+package kg.erjan.musicplayer.presentation.ui.screens.home
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -23,11 +23,11 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.google.accompanist.pager.*
 import kg.erjan.musicplayer.R
-import kg.erjan.musicplayer.presentation.ui.screens.home_music.albums.AlbumsScreen
-import kg.erjan.musicplayer.presentation.ui.screens.home_music.components.MusicCard
-import kg.erjan.musicplayer.presentation.ui.screens.home_music.packages.PackagesScreen
-import kg.erjan.musicplayer.presentation.ui.screens.home_music.performers.PerformersScreen
-import kg.erjan.musicplayer.presentation.ui.screens.home_music.tracks.TracksScreen
+import kg.erjan.musicplayer.presentation.ui.screens.home.albums.AlbumsScreen
+import kg.erjan.musicplayer.presentation.ui.screens.home.components.MusicCard
+import kg.erjan.musicplayer.presentation.ui.screens.home.packages.PackagesScreen
+import kg.erjan.musicplayer.presentation.ui.screens.home.performers.PerformersScreen
+import kg.erjan.musicplayer.presentation.ui.screens.home.tracks.TracksScreen
 import kg.erjan.musicplayer.presentation.ui.theme.*
 import kotlinx.coroutines.launch
 

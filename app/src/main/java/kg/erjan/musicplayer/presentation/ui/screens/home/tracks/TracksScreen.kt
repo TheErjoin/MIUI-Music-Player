@@ -1,4 +1,4 @@
-package kg.erjan.musicplayer.presentation.ui.screens.home_music.tracks
+package kg.erjan.musicplayer.presentation.ui.screens.home.tracks
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -10,6 +10,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -28,12 +29,13 @@ import kg.erjan.musicplayer.presentation.ui.theme.Grape
 import kg.erjan.musicplayer.presentation.ui.theme.SpanishGray
 
 @Composable
-fun TracksScreen() {
-    val viewModel = hiltViewModel<TracksViewModel>()
+fun TracksScreen(
+    viewModel: TracksViewModel = hiltViewModel()
+) {
     Column(modifier = Modifier.padding(top = 12.dp)) {
         PlayRandomOrder()
         Spacer(modifier = Modifier.height(12.dp))
-        viewModel.trackState.collectUIState {
+        viewModel.trackState.collectAsState().collectUIState {
             TrackList(it)
         }
     }

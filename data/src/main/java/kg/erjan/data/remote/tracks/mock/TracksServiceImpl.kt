@@ -3,7 +3,6 @@ package kg.erjan.data.remote.tracks.mock
 import android.annotation.SuppressLint
 import android.content.Context
 import android.database.Cursor
-import android.net.Uri
 import android.provider.MediaStore
 import android.util.Log
 import kg.erjan.data.remote.dto.TracksDto
@@ -18,17 +17,22 @@ class TracksServiceImpl @Inject constructor(
     override suspend fun fetchTracks(): List<TracksDto>  {
         val tracksList = mutableListOf<TracksDto>()
 
-        val uri: Uri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI
         val projection = arrayOf(
-            MediaStore.Audio.AudioColumns.DATA,
-            MediaStore.Audio.AudioColumns.ALBUM,
-            MediaStore.Audio.ArtistColumns.ARTIST
+            MediaStore.Audio.Media._ID,
+            MediaStore.Audio.Media.ARTIST,
+            MediaStore.Audio.Media.TITLE,
+            MediaStore.Audio.Media.DATA,
+            MediaStore.Audio.Media.DISPLAY_NAME,
+            MediaStore.Audio.Media.DURATION
         )
+
+        val selection = MediaStore.Audio.Media.IS_MUSIC + " != 0"
+
         val cursor: Cursor? = context.contentResolver.query(
-            uri,
+            MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,
             projection,
-            MediaStore.Audio.Media.DATA + " like ? ",
-            arrayOf("%yourFolderName%"),
+            selection,
+            null,
             null
         )
 
