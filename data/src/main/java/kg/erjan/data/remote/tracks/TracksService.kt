@@ -4,6 +4,6 @@ import kg.erjan.data.remote.dto.TracksDto
 
 interface TracksService {
 
-    suspend fun fetchTracks(): List<TracksDto>
+    suspend fun  fetchTracks(): List<TracksDto>
 
 }

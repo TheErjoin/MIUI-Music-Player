@@ -1,5 +1,6 @@
 package kg.erjan.musicplayer.presentation.ui.screens.home.tracks
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -37,6 +38,7 @@ fun TracksScreen(
         Spacer(modifier = Modifier.height(12.dp))
         viewModel.trackState.collectAsState().collectUIState {
             TrackList(it)
+            Log.e("music", "TracksScreen: $it", )
         }
     }
 }
@@ -84,7 +86,11 @@ private fun ItemTrack(onClick: () -> Unit, tracks: Tracks) {
                     text = buildAnnotatedString {
                         append(tracks.artistTrack)
                         append("  |  ")
-                        append(tracks.albumTrack)
+                        if (tracks.albumTrack == "<unknown>"){
+                            append("Неизвестный исполнитель")
+                        }else{
+                            append(tracks.albumTrack)
+                        }
                     },
                     fontSize = 12.sp,
                     color = SpanishGray

@@ -39,9 +39,9 @@ class TracksServiceImpl @Inject constructor(
         if (cursor != null){
             while (cursor.moveToNext()){
                 val path = cursor.getString(0)
-                val album = cursor.getString(1)
-                val artist = cursor.getString(2)
-                val name = path.substring(path.lastIndexOf("/") + 1)
+                val artist = cursor.getString(1)
+                val name = cursor.getString(2)
+                val album = cursor.getString(5)
                 val tracks = TracksDto(path,name,album,artist)
 
                 Log.e("tracks", " Album :$album,Name :$name")
