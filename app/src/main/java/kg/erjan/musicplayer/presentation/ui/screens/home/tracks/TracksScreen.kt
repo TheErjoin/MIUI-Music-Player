@@ -38,7 +38,6 @@ fun TracksScreen(
         Spacer(modifier = Modifier.height(12.dp))
         viewModel.trackState.collectAsState().collectUIState {
             TrackList(it)
-            Log.e("music", "TracksScreen: $it", )
         }
     }
 }
@@ -84,11 +83,13 @@ private fun ItemTrack(onClick: () -> Unit, tracks: Tracks) {
                 Spacer(modifier = Modifier.width(2.dp))
                 Text(
                     text = buildAnnotatedString {
-                        append(tracks.artistTrack)
-                        append("  |  ")
-                        if (tracks.albumTrack == "<unknown>"){
-                            append("Неизвестный исполнитель")
+                        if (tracks.albumTrack == "Download" || tracks.nameTrack == "<unknown>"){
+                            append(stringResource(R.string.unknown_performers))
+                            append("  |  ")
+                            append(stringResource(R.string.unknown_album))
                         }else{
+                            append(tracks.artistTrack)
+                            append("  |  ")
                             append(tracks.albumTrack)
                         }
                     },

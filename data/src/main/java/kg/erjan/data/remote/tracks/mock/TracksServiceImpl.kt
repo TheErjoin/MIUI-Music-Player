@@ -20,10 +20,8 @@ class TracksServiceImpl @Inject constructor(
         val projection = arrayOf(
             MediaStore.Audio.Media._ID,
             MediaStore.Audio.Media.ARTIST,
+            MediaStore.Audio.Media.ALBUM,
             MediaStore.Audio.Media.TITLE,
-            MediaStore.Audio.Media.DATA,
-            MediaStore.Audio.Media.DISPLAY_NAME,
-            MediaStore.Audio.Media.DURATION
         )
 
         val selection = MediaStore.Audio.Media.IS_MUSIC + " != 0"
@@ -37,14 +35,12 @@ class TracksServiceImpl @Inject constructor(
         )
 
         if (cursor != null){
-            while (cursor.moveToNext()){
+            while (cursor.moveToNext()) {
                 val path = cursor.getString(0)
                 val artist = cursor.getString(1)
-                val name = cursor.getString(2)
-                val album = cursor.getString(5)
-                val tracks = TracksDto(path,name,album,artist)
-
-                Log.e("tracks", " Album :$album,Name :$name")
+                val album = cursor.getString(2)
+                val name = cursor.getString(3)
+                val tracks = TracksDto(path, name, album, artist)
 
                 tracksList.add(tracks)
             }

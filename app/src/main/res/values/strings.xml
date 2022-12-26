@@ -12,6 +12,8 @@
     <string name="albums">Альбомы</string>
     <string name="packages">Папки</string>
     <string name="play_track_random_order">В случайном порядке</string>
+    <string name="unknown_album">Неизвестный альбом</string>
+    <string name="unknown_performers">Неизвестный исполнитель</string>
     <!--endregion-->
 
 </resources>
