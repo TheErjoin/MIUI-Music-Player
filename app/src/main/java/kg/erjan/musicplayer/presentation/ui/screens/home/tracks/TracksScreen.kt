@@ -19,6 +19,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -86,13 +87,14 @@ private fun ItemTrack(onClick: () -> Unit, tracks: Tracks) {
                             append(stringResource(R.string.unknown_performers))
                             append("  |  ")
                             append(stringResource(R.string.unknown_album))
-                        }else{
+                        } else {
                             append(tracks.artistTrack)
                             append("  |  ")
                             append(tracks.albumTrack)
                         }
                     },
                     fontSize = 12.sp,
+                    overflow = TextOverflow.Ellipsis,
                     color = SpanishGray
                 )
             }
@@ -142,7 +144,11 @@ private fun PlayRandomOrder() {
             fontSize = 16.sp,
             fontWeight = FontWeight.Bold
         )
-        Row(horizontalArrangement = Arrangement.End, modifier = Modifier.fillMaxWidth()) {
+        Row(
+            horizontalArrangement = Arrangement.End,
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier.fillMaxWidth()
+        ) {
             Image(
                 modifier = Modifier.clickable {
                     //TODO onClick to bottom sheet sorting

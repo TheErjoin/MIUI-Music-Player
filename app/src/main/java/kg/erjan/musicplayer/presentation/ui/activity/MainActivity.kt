@@ -15,11 +15,6 @@ import kg.erjan.musicplayer.presentation.ui.theme.MusicPlayerTheme
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
-    private val requestPermissionForExternalStorageLauncher = registerForActivityResult(
-        ActivityResultContracts.RequestPermission()
-    ) {}
-
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         requestPermission()
@@ -27,7 +22,7 @@ class MainActivity : ComponentActivity() {
     }
 
     private fun requestPermission() {
-        requestPermissionForExternalStorageLauncher.launch(android.Manifest.permission.READ_EXTERNAL_STORAGE)
+        registerForActivityResult(ActivityResultContracts.RequestPermission()) {}.launch(android.Manifest.permission.READ_EXTERNAL_STORAGE)
     }
 
     private fun setContentCompose() {

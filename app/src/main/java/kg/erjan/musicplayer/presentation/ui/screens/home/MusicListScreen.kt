@@ -20,6 +20,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.google.accompanist.pager.*
@@ -67,9 +68,7 @@ fun MusicListScreen() {
                 MusicTabs()
             }
             is PermissionStatus.Denied -> {
-                if (!musicPermissionState.status.shouldShowRationale) {
-                    GrandPermission()
-                }
+                GrandPermission()
             }
         }
     }
@@ -90,7 +89,8 @@ private fun GrandPermission() {
         Text(
             text = stringResource(R.string.grant_us_permission_to_display_the_list_of_songs),
             fontSize = 13.sp,
-            color = Color.White
+            color = Color.White,
+            textAlign = TextAlign.Center
         )
         Spacer(modifier = Modifier.height(12.dp))
         Button(
