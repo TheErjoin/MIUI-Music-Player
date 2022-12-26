@@ -44,7 +44,7 @@ dependencies {
 
     // OkHttp
     implementation(Libraries.OkHttp.bom)
-    implementation(Libraries.OkHttp.okHttp)
+    implementation(Libraries.OkHttp.okHttp) 
     implementation(Libraries.OkHttp.loggingInterceptor)
 
     // Room

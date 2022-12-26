@@ -1,4 +1,4 @@
-package kg.erjan.musicplayer.presentation.ui.screens.home_music.tracks_list
+package kg.erjan.musicplayer.presentation.ui.screens.home.performers
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -11,13 +11,13 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 
 @Composable
-fun TracksScreen() {
+fun PerformersScreen() {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
         Text(
-            "Music",
+            "Performers",
             style = MaterialTheme.typography.h5,
             color = Color.White,
             fontWeight = FontWeight.Bold,
