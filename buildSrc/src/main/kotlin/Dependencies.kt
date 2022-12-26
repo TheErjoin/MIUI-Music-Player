@@ -20,6 +20,7 @@ object Versions {
     const val composeRuntime = "1.2.1"
     const val coilCompose = "2.2.2"
     const val accompanistPager = "0.28.0"
+    const val accompanistPermission = "0.28.0"
     const val navigationCompose = "2.5.3"
     const val hiltNavigation = "1.0.0"
 }
@@ -48,10 +49,12 @@ object Libraries {
         const val coilCompose = "io.coil-kt:coil-compose:${Versions.coilCompose}"
         const val hiltNavigation =
             "androidx.hilt:hilt-navigation-compose:${Versions.hiltNavigation}"
-        const val navigation =
+        const val navigationCompose =
             "androidx.navigation:navigation-compose:${Versions.navigationCompose}"
         const val accompanistPager =
             "com.google.accompanist:accompanist-pager:${Versions.accompanistPager}"
+        const val accompanistPermission =
+            "com.google.accompanist:accompanist-permissions:${Versions.accompanistPermission}"
         const val accompanistPagerIndicators =
             "com.google.accompanist:accompanist-pager-indicators:${Versions.accompanistPager}"
     }

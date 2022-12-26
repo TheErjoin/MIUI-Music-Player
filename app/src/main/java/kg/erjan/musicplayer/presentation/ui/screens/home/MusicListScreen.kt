@@ -1,14 +1,14 @@
 package kg.erjan.musicplayer.presentation.ui.screens.home
 
+import android.content.Intent
+import android.net.Uri
+import android.provider.Settings
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Tab
-import androidx.compose.material.TabRow
-import androidx.compose.material.TabRowDefaults
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
@@ -16,13 +16,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.google.accompanist.pager.*
+import com.google.accompanist.permissions.*
 import kg.erjan.musicplayer.R
+import kg.erjan.musicplayer.presentation.App
 import kg.erjan.musicplayer.presentation.ui.screens.home.albums.AlbumsScreen
 import kg.erjan.musicplayer.presentation.ui.screens.home.components.MusicCard
 import kg.erjan.musicplayer.presentation.ui.screens.home.packages.PackagesScreen
@@ -31,8 +34,14 @@ import kg.erjan.musicplayer.presentation.ui.screens.home.tracks.TracksScreen
 import kg.erjan.musicplayer.presentation.ui.theme.*
 import kotlinx.coroutines.launch
 
+@OptIn(ExperimentalPermissionsApi::class)
 @Composable
 fun MusicListScreen() {
+
+    val musicPermissionState = rememberPermissionState(
+        android.Manifest.permission.READ_EXTERNAL_STORAGE
+    )
+
     Column(modifier = Modifier.padding(16.dp)) {
         Row(
             verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(top = 2.dp)
@@ -53,7 +62,55 @@ fun MusicListScreen() {
             color = Color.White,
             fontWeight = FontWeight.Bold
         )
-        MusicTabs()
+        when (musicPermissionState.status) {
+            PermissionStatus.Granted -> {
+                MusicTabs()
+            }
+            is PermissionStatus.Denied -> {
+                if (!musicPermissionState.status.shouldShowRationale) {
+                    GrandPermission()
+                }
+            }
+        }
+    }
+}
+
+@Composable
+private fun GrandPermission() {
+
+    val context = LocalContext.current
+
+    Column(
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally,
+        modifier = Modifier
+            .fillMaxSize()
+            .clip(RoundedCornerShape(12.dp)),
+    ) {
+        Text(
+            text = stringResource(R.string.grant_us_permission_to_display_the_list_of_songs),
+            fontSize = 13.sp,
+            color = Color.White
+        )
+        Spacer(modifier = Modifier.height(12.dp))
+        Button(
+            onClick = {
+                context.startActivity(
+                    Intent(
+                        Settings.ACTION_APPLICATION_DETAILS_SETTINGS
+                    ).setData(
+                        Uri.parse("package:${App.PACKAGE_NAME}")
+                    )
+                )
+            },
+            colors = ButtonDefaults.buttonColors(Grape),
+            modifier = Modifier
+                .height(44.dp)
+                .fillMaxWidth(),
+            shape = RoundedCornerShape(8.dp)
+        ) {
+            Text(text = stringResource(R.string.grant), fontSize = 16.sp, color = Color.White)
+        }
     }
 }
 
