@@ -60,6 +60,7 @@ dependencies {
 
     // Core
     implementation(Libraries.Core.core)
+    implementation(Libraries.Core.splashScreen)
 
     // Lifecycle
     implementation(Libraries.Lifecycle.viewModel)

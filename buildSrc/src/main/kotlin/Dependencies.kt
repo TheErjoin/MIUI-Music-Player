@@ -3,6 +3,7 @@ object Versions {
     const val kotlin = "1.7.20"
     const val coroutines = "1.6.4"
     const val core = "1.9.0"
+    const val splashScreen = "1.0.0"
     const val activity = "1.6.0"
     const val lifecycle = "2.5.1"
     const val dagger = "2.44"
@@ -61,6 +62,7 @@ object Libraries {
 
     object Core {
         const val core = "androidx.core:core-ktx:${Versions.core}"
+        const val splashScreen = "androidx.core:core-splashscreen:${Versions.splashScreen}"
     }
 
     object Activity {
