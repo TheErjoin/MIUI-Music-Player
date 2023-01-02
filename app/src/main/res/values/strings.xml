@@ -16,6 +16,7 @@
     <string name="unknown_performers">Неизвестный исполнитель</string>
     <string name="grant_us_permission_to_display_the_list_of_songs">Предоставьте нам разрешение для того что бы отобразить список песен</string>
     <string name="grant">Предоставить</string>
+    <string name="lyrics_song">Текст песни</string>
     <!--endregion-->
 
 </resources>
