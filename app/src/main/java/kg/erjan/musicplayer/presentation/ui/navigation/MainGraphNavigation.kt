@@ -10,9 +10,9 @@ import kg.erjan.musicplayer.presentation.ui.screens.track.TrackScreen
 @Composable
 fun MainGraphNavigation(){
     val navController = rememberNavController()
-    NavHost(navController = navController, startDestination = Screen.TRACK_SCREEN.route){
+    NavHost(navController = navController, startDestination = Screen.MUSIC_LIST.route){
         composable(route = Screen.MUSIC_LIST.route){
-            MusicListScreen()
+            MusicListScreen(navController)
         }
         composable(route = Screen.TRACK_SCREEN.route){
             TrackScreen()

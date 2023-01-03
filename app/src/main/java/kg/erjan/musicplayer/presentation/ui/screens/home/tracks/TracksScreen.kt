@@ -23,32 +23,36 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavHostController
 import kg.erjan.domain.entities.tracks.Tracks
 import kg.erjan.musicplayer.R
 import kg.erjan.musicplayer.presentation.extensions.collectUIState
+import kg.erjan.musicplayer.presentation.extensions.navigateSafely
+import kg.erjan.musicplayer.presentation.ui.navigation.Screen
 import kg.erjan.musicplayer.presentation.ui.theme.Grape
 import kg.erjan.musicplayer.presentation.ui.theme.SpanishGray
 
 @Composable
 fun TracksScreen(
-    viewModel: TracksViewModel = hiltViewModel()
+    viewModel: TracksViewModel = hiltViewModel(),
+    navController: NavHostController
 ) {
     Column(modifier = Modifier.padding(top = 12.dp)) {
         PlayRandomOrder()
         Spacer(modifier = Modifier.height(12.dp))
         viewModel.trackState.collectAsState().collectUIState {
-            TrackList(it)
+            TrackList(it,navController)
         }
     }
 }
 
 @Composable
-private fun TrackList(tracks: List<Tracks>) {
+private fun TrackList(tracks: List<Tracks>, navController: NavHostController) {
     LazyColumn {
         items(
             items = tracks
         ) {
-            ItemTrack(onClick = { /*TODO onClick to song*/ }, it)
+            ItemTrack(onClick = { navController.navigateSafely(Screen.TRACK_SCREEN.route) }, it)
         }
     }
 }

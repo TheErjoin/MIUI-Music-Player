@@ -19,11 +19,13 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.google.accompanist.pager.ExperimentalPagerApi
+import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.PagerState
 import com.google.accompanist.pager.rememberPagerState
 import kg.erjan.musicplayer.R
 import kg.erjan.musicplayer.presentation.ui.theme.AmericanViolet
 import kg.erjan.musicplayer.presentation.ui.theme.BlueViolet
+import kg.erjan.musicplayer.presentation.ui.theme.BrightLavender
 import kg.erjan.musicplayer.presentation.ui.theme.Indigo
 import kotlinx.coroutines.launch
 
@@ -31,15 +33,20 @@ import kotlinx.coroutines.launch
 @Composable
 fun TrackScreen() {
     val pagerState = rememberPagerState(initialPage = 0)
+    val tabData = listOf(
+        stringResource(R.string.tracks),
+        stringResource(id = R.string.lyrics_song)
+    )
 
     Column(
         modifier = Modifier
             .background(Indigo)
             .fillMaxSize()
-            .padding(16.dp)
     ) {
-        ToolbarMusicInfo(pagerState)
-        LogoAndLyricsMusic(pagerState)
+        Spacer(modifier = Modifier.height(16.dp))
+        ToolbarMusicInfo(pagerState, tabData)
+        Spacer(modifier = Modifier.height(22.dp))
+        LogoAndLyricsMusic(pagerState, tabData)
         MusicInfo()
         MusicSlider()
     }
@@ -47,8 +54,43 @@ fun TrackScreen() {
 
 @OptIn(ExperimentalPagerApi::class)
 @Composable
-fun LogoAndLyricsMusic(pagerState: PagerState) {
+fun LogoAndLyricsMusic(pagerState: PagerState, tabData: List<String>) {
+    HorizontalPager(
+        count = tabData.size,
+        state = pagerState,
+    ) { page ->
+        Column {
+            when (page) {
+                0 -> ImageMusic()
+                else -> LyricsMusic()
+            }
+        }
+    }
+}
 
+@Composable
+private fun LyricsMusic() {
+
+}
+
+@Composable
+private fun ImageMusic() {
+    Box(
+        modifier = Modifier
+            .padding(horizontal = 32.dp)
+            .fillMaxWidth()
+            .clip(RoundedCornerShape(24.dp))
+            .fillMaxHeight(0.45F)
+            .background(BrightLavender)
+    ) {
+        Image(
+            painter = painterResource(id = R.drawable.ic_playlist),
+            contentDescription = null,
+            modifier = Modifier
+                .size(200.dp)
+                .align(Alignment.Center)
+        )
+    }
 }
 
 @Composable
@@ -67,14 +109,11 @@ private fun MusicInfo() {
 
 @OptIn(ExperimentalPagerApi::class)
 @Composable
-private fun ToolbarMusicInfo(pagerState: PagerState) {
-    val tabData = listOf(
-        stringResource(R.string.tracks),
-        stringResource(id = R.string.lyrics_song)
-    )
-
+private fun ToolbarMusicInfo(pagerState: PagerState, tabData: List<String>) {
     Box(
-        modifier = Modifier.fillMaxWidth()
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 16.dp)
     ) {
         Image(
             painter = painterResource(id = R.drawable.ic_arrow_down),
@@ -82,7 +121,7 @@ private fun ToolbarMusicInfo(pagerState: PagerState) {
             modifier = Modifier
                 .align(Alignment.CenterStart)
                 .clickable { /*TODO onClick */ },
-            )
+        )
         Tabs(pagerState, tabData, Modifier.align(Alignment.Center))
         Image(
             painter = painterResource(id = R.drawable.ic_more_track),
