@@ -1,14 +1,13 @@
 package kg.erjan.musicplayer.presentation.ui.screens.track
 
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.*
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Tab
-import androidx.compose.material.TabRow
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -23,10 +22,7 @@ import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.PagerState
 import com.google.accompanist.pager.rememberPagerState
 import kg.erjan.musicplayer.R
-import kg.erjan.musicplayer.presentation.ui.theme.AmericanViolet
-import kg.erjan.musicplayer.presentation.ui.theme.BlueViolet
-import kg.erjan.musicplayer.presentation.ui.theme.BrightLavender
-import kg.erjan.musicplayer.presentation.ui.theme.Indigo
+import kg.erjan.musicplayer.presentation.ui.theme.*
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalPagerApi::class)
@@ -43,10 +39,11 @@ fun TrackScreen() {
             .background(Indigo)
             .fillMaxSize()
     ) {
-        Spacer(modifier = Modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(6.dp))
         ToolbarMusicInfo(pagerState, tabData)
         Spacer(modifier = Modifier.height(22.dp))
         LogoAndLyricsMusic(pagerState, tabData)
+        Spacer(modifier = Modifier.height(42.dp))
         MusicInfo()
         MusicSlider()
     }
@@ -70,7 +67,31 @@ fun LogoAndLyricsMusic(pagerState: PagerState, tabData: List<String>) {
 
 @Composable
 private fun LyricsMusic() {
-
+    Column(
+        modifier = Modifier
+            .padding(horizontal = 32.dp)
+            .fillMaxWidth()
+            .clip(RoundedCornerShape(24.dp))
+            .fillMaxHeight(0.45F),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Text(text = stringResource(R.string.no_text), fontSize = 16.sp, color = Color.Gray)
+        Spacer(modifier = Modifier.height(45.dp))
+        OutlinedButton(
+            onClick = { },
+            border = BorderStroke(1.dp, Color.White),
+            shape = RoundedCornerShape(50),
+            modifier = Modifier.background(Color.Transparent),
+            colors = ButtonDefaults.outlinedButtonColors(Color.Transparent),
+        ) {
+            Text(
+                text = stringResource(R.string.added),
+                fontSize = 14.sp,
+                color = Color.White,
+            )
+        }
+    }
 }
 
 @Composable
@@ -100,10 +121,38 @@ private fun MusicSlider() {
 
 @Composable
 private fun MusicInfo() {
-    Row(
-        modifier = Modifier.fillMaxWidth()
+    val isFavorite = remember { mutableStateOf(false) }
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 16.dp)
     ) {
-
+        Column(
+            modifier = Modifier.align(Alignment.CenterStart)
+        ) {
+            Text(
+                text = "The Gong of Knockout",
+                fontSize = 21.sp,
+                color = Color.White
+            )
+            Spacer(modifier = Modifier.height(6.dp))
+            Text(
+                text = "Fear,and Loathing in Las Vegas",
+                fontSize = 14.sp,
+                color = TropicalViolet
+            )
+        }
+        Image(
+            modifier = Modifier
+                .size(32.dp)
+                .clickable(
+                    interactionSource = MutableInteractionSource(),
+                    indication = null
+                ) { isFavorite.value = !isFavorite.value }
+                .align(Alignment.TopEnd),
+            painter = painterResource(id = if (!isFavorite.value) R.drawable.ic_favorite_no_active else R.drawable.ic_favorite_active),
+            contentDescription = null,
+        )
     }
 }
 
