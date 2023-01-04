@@ -5,10 +5,8 @@ import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.material.ripple.rememberRipple
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -45,13 +43,75 @@ fun TrackScreen() {
         LogoAndLyricsMusic(pagerState, tabData)
         Spacer(modifier = Modifier.height(42.dp))
         MusicInfo()
+        Spacer(modifier = Modifier.height(62.dp))
         MusicSlider()
+        Spacer(modifier = Modifier.height(42.dp))
+        PlaybackMusic()
+    }
+}
+
+@Composable
+private fun PlaybackMusic() {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 16.dp),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.SpaceBetween
+    ) {
+        Image(
+            painter = painterResource(id = R.drawable.ic_repeat),
+            contentDescription = null,
+            modifier = Modifier.clickable(
+                interactionSource = MutableInteractionSource(),
+                indication = rememberRipple(bounded = false)
+            ) { /*TODO on Click repeat count music*/ }
+        )
+        Spacer(modifier = Modifier.width(8.dp))
+        Image(
+            painter = painterResource(id = R.drawable.ic_skip_previous),
+            contentDescription = null,
+            modifier = Modifier.clickable(
+                interactionSource = MutableInteractionSource(),
+                indication = rememberRipple(bounded = false)
+            ) { /*TODO on Click back to previous music*/ }
+        )
+        Spacer(modifier = Modifier.width(8.dp))
+        FloatingActionButton(
+            onClick = { /*TODO on Click play or stop music*/ },
+            backgroundColor = AfricanViolet,
+            modifier = Modifier.size(64.dp)
+        ) {
+            Image(
+                painter = painterResource(id = R.drawable.ic_play),
+                contentDescription = null,
+                modifier = Modifier.size(32.dp)
+            )
+        }
+        Spacer(modifier = Modifier.width(8.dp))
+        Image(
+            painter = painterResource(id = R.drawable.ic_skip_next),
+            contentDescription = null,
+            modifier = Modifier.clickable(
+                interactionSource = MutableInteractionSource(),
+                indication = rememberRipple(bounded = false)
+            ) { /*TODO on Click back to next music*/ }
+        )
+        Spacer(modifier = Modifier.width(8.dp))
+        Image(
+            painter = painterResource(id = R.drawable.ic_queue_music),
+            contentDescription = null,
+            modifier = Modifier.clickable(
+                interactionSource = MutableInteractionSource(),
+                indication = rememberRipple(bounded = false)
+            ) { /*TODO on Click choose queue music*/ }
+        )
     }
 }
 
 @OptIn(ExperimentalPagerApi::class)
 @Composable
-fun LogoAndLyricsMusic(pagerState: PagerState, tabData: List<String>) {
+private fun LogoAndLyricsMusic(pagerState: PagerState, tabData: List<String>) {
     HorizontalPager(
         count = tabData.size,
         state = pagerState,
@@ -116,7 +176,36 @@ private fun ImageMusic() {
 
 @Composable
 private fun MusicSlider() {
-//    Slider(value =, onValueChange =)
+    var sliderPosition by remember { mutableStateOf(0f) }
+    Column(
+        modifier = Modifier.padding(horizontal = 16.dp)
+    ) {
+        Slider(
+            value = sliderPosition,
+            onValueChange = { sliderPosition = it },
+            colors = SliderDefaults.colors(
+                thumbColor = AfricanViolet,
+                activeTrackColor = Snow
+            ),
+            modifier = Modifier
+                .height(10.dp),
+        )
+        Spacer(modifier = Modifier.height(8.dp))
+        Box(modifier = Modifier.fillMaxWidth()) {
+            Text(
+                text = "0:27",
+                fontSize = 12.sp,
+                color = TropicalViolet,
+                modifier = Modifier.align(Alignment.TopStart)
+            )
+            Text(
+                text = "03:30",
+                fontSize = 12.sp,
+                color = TropicalViolet,
+                modifier = Modifier.align(Alignment.TopEnd)
+            )
+        }
+    }
 }
 
 @Composable
@@ -125,18 +214,20 @@ private fun MusicInfo() {
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = 16.dp)
+            .padding(start = 16.dp, end = 24.dp)
     ) {
         Column(
             modifier = Modifier.align(Alignment.CenterStart)
         ) {
             Text(
+                //TODO delete this
                 text = "The Gong of Knockout",
                 fontSize = 21.sp,
                 color = Color.White
             )
             Spacer(modifier = Modifier.height(6.dp))
             Text(
+                //TODO delete this
                 text = "Fear,and Loathing in Las Vegas",
                 fontSize = 14.sp,
                 color = TropicalViolet
@@ -147,10 +238,10 @@ private fun MusicInfo() {
                 .size(32.dp)
                 .clickable(
                     interactionSource = MutableInteractionSource(),
-                    indication = null
+                    indication = rememberRipple(bounded = false)
                 ) { isFavorite.value = !isFavorite.value }
                 .align(Alignment.TopEnd),
-            painter = painterResource(id = if (!isFavorite.value) R.drawable.ic_favorite_no_active else R.drawable.ic_favorite_active),
+            painter = painterResource(id = if (!isFavorite.value) R.drawable.ic_favorite_border else R.drawable.ic_favorite),
             contentDescription = null,
         )
     }

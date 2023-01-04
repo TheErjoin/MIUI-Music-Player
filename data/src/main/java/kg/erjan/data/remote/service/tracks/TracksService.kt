@@ -1,4 +1,4 @@
-package kg.erjan.data.remote.tracks
+package kg.erjan.data.remote.service.tracks
 
 import kg.erjan.data.remote.dto.TracksDto
 

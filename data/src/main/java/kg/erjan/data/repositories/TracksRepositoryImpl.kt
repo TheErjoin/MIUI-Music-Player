@@ -1,7 +1,7 @@
 package kg.erjan.data.repositories
 
 import kg.erjan.data.base.BaseRepository
-import kg.erjan.data.remote.tracks.TracksService
+import kg.erjan.data.remote.service.tracks.TracksService
 import kg.erjan.domain.repositories.TracksRepository
 import javax.inject.Inject
 

@@ -136,7 +136,7 @@ private fun PlayRandomOrder() {
                 .size(36.dp)
         ) {
             Image(
-                painter = painterResource(id = R.drawable.ic_play_arrow),
+                painter = painterResource(id = R.drawable.ic_play),
                 contentDescription = null,
                 modifier = Modifier.align(Alignment.Center)
             )
