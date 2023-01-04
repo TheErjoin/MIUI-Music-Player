@@ -1,4 +1,4 @@
-package kg.erjan.data.remote.tracks.mock
+package kg.erjan.data.remote.service.tracks.mock
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -6,7 +6,7 @@ import android.database.Cursor
 import android.provider.MediaStore
 import android.util.Log
 import kg.erjan.data.remote.dto.TracksDto
-import kg.erjan.data.remote.tracks.TracksService
+import kg.erjan.data.remote.service.tracks.TracksService
 import javax.inject.Inject
 
 class TracksServiceImpl @Inject constructor(

@@ -6,8 +6,8 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
-import kg.erjan.data.remote.tracks.TracksService
-import kg.erjan.data.remote.tracks.mock.TracksServiceImpl
+import kg.erjan.data.remote.service.tracks.TracksService
+import kg.erjan.data.remote.service.tracks.mock.TracksServiceImpl
 import javax.inject.Singleton
 
 @Module

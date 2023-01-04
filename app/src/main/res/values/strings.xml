@@ -18,4 +18,11 @@
     <string name="grant">Предоставить</string>
     <!--endregion-->
 
+
+    <!--region Track Screen-->
+    <string name="lyrics_song">Текст песни</string>
+    <string name="no_text">Нет текста</string>
+    <string name="added">Добавить</string>
+    <!--endregion-->
+
 </resources>

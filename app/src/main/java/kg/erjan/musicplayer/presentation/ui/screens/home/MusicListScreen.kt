@@ -23,6 +23,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
 import com.google.accompanist.pager.*
 import com.google.accompanist.permissions.*
 import kg.erjan.musicplayer.R
@@ -37,7 +38,7 @@ import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalPermissionsApi::class)
 @Composable
-fun MusicListScreen() {
+fun MusicListScreen(navController: NavHostController) {
 
     val musicPermissionState = rememberPermissionState(
         android.Manifest.permission.READ_EXTERNAL_STORAGE
@@ -65,7 +66,7 @@ fun MusicListScreen() {
         )
         when (musicPermissionState.status) {
             PermissionStatus.Granted -> {
-                MusicTabs()
+                MusicTabs(navController)
             }
             is PermissionStatus.Denied -> {
                 GrandPermission()
@@ -116,7 +117,7 @@ private fun GrandPermission() {
 
 @OptIn(ExperimentalPagerApi::class)
 @Composable
-private fun MusicTabs() {
+private fun MusicTabs(navController: NavHostController) {
     val pagerState = rememberPagerState(initialPage = 0)
 
     val tabData = listOf(
@@ -128,13 +129,17 @@ private fun MusicTabs() {
 
     Column {
         Tabs(pagerState = pagerState,tabData = tabData)
-        MusicTabsScreen(pagerState = pagerState,tabData = tabData)
+        MusicTabsScreen(pagerState = pagerState,tabData = tabData,navController = navController)
     }
 }
 
 @OptIn(ExperimentalPagerApi::class)
 @Composable
-private fun MusicTabsScreen(pagerState: PagerState, tabData: List<String>) {
+private fun MusicTabsScreen(
+    pagerState: PagerState,
+    tabData: List<String>,
+    navController: NavHostController
+) {
     HorizontalPager(
         count = tabData.size,
         state = pagerState,
@@ -143,7 +148,7 @@ private fun MusicTabsScreen(pagerState: PagerState, tabData: List<String>) {
             modifier = Modifier.fillMaxSize(),
         ) {
             when (page) {
-                0 -> TracksScreen()
+                0 -> TracksScreen(navController = navController)
                 1 -> PerformersScreen()
                 2 -> AlbumsScreen()
                 else -> PackagesScreen()
