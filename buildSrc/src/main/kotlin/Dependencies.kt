@@ -24,6 +24,7 @@ object Versions {
     const val accompanistPermission = "0.28.0"
     const val navigationCompose = "2.5.3"
     const val hiltNavigation = "1.0.0"
+    const val preference = "1.2.0"
 }
 
 object Libraries {
@@ -35,6 +36,10 @@ object Libraries {
         const val android = "org.jetbrains.kotlinx:kotlinx-coroutines-android:${
             Versions.coroutines
         }"
+    }
+
+    object AndroidX {
+        const val preference = "androidx.preference:preference:${Versions.preference}"
     }
 
     object Compose {

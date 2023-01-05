@@ -12,6 +12,7 @@ android {
     defaultConfig {
         minSdk = AndroidConfig.minSdk
         targetSdk = AndroidConfig.targetSdk
+        vectorDrawables.useSupportLibrary = true
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -41,6 +42,9 @@ dependencies {
     // Retrofit 2
     implementation(Libraries.Retrofit.retrofit)
     implementation(Libraries.Retrofit.converterGson)
+
+    //AndroidX
+    implementation(Libraries.AndroidX.preference)
 
     // OkHttp
     implementation(Libraries.OkHttp.bom)
