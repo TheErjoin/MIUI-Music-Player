@@ -6,7 +6,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Text
@@ -26,11 +26,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
+import kg.erjan.data.utils.MusicUtil
 import kg.erjan.domain.entities.tracks.Tracks
 import kg.erjan.musicplayer.R
 import kg.erjan.musicplayer.presentation.extensions.collectUIState
-import kg.erjan.musicplayer.presentation.extensions.navigateSafely
-import kg.erjan.musicplayer.presentation.ui.navigation.Screen
 import kg.erjan.musicplayer.presentation.ui.theme.Grape
 import kg.erjan.musicplayer.presentation.ui.theme.RippleColor
 import kg.erjan.musicplayer.presentation.ui.theme.SpanishGray
@@ -44,20 +43,24 @@ fun TracksScreen(
         PlayRandomOrder()
         Spacer(modifier = Modifier.height(12.dp))
         viewModel.trackState.collectAsState().collectUIState {
-            TrackList(it,navController)
+            TrackList(it, viewModel)
         }
     }
 }
 
 @Composable
-private fun TrackList(tracks: List<Tracks>, navController: NavHostController) {
+private fun TrackList(tracks: List<Tracks>, viewModel: TracksViewModel) {
     LazyColumn {
-        items(
+        itemsIndexed(
             items = tracks
-        ) {
-            ItemTrack(onClick = { navController.navigateSafely(Screen.TRACK_SCREEN.route) }, it)
+        ) { index, item ->
+            ItemTrack(onClick = { viewModel.playerRemote.openQueue(tracks,index,true) }, item)
         }
     }
+}
+
+private fun getTrackUri(id: Int): String {
+    return MusicUtil().getSongFileUri(id).toString()
 }
 
 @Composable

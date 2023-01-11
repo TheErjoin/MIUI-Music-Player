@@ -14,5 +14,5 @@ abstract class RepositoriesModule {
     @Binds
     abstract fun bindTrackRepository(
         tracksRepositoryImpl: TracksRepositoryImpl
-    ):TracksRepository
+    ): TracksRepository
 }

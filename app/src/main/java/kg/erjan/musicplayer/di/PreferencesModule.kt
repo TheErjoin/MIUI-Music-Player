@@ -26,4 +26,5 @@ object PreferencesModule {
         preferencesHelper: PreferencesHelper
     ) = MusicPreferencesData(preferencesHelper)
 
+
 }
