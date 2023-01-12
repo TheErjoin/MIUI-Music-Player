@@ -1,30 +1,28 @@
 package kg.erjan.data.remote.service.music.mock
 
 import android.content.Context
-import android.media.AudioAttributes
+import android.content.Intent
 import android.media.MediaPlayer
+import android.media.audiofx.AudioEffect
 import android.net.Uri
 import android.os.PowerManager
 import android.util.Log
 import kg.erjan.data.remote.service.music.playback.PlaybackService
-import javax.inject.Inject
 
 class MusicServiceImpl(
     val context: Context
 ) : PlaybackService, MediaPlayer.OnErrorListener, MediaPlayer.OnCompletionListener {
 
-    private var mediaPlayer: MediaPlayer = MediaPlayer().apply {
-        setAudioAttributes(
-            AudioAttributes.Builder()
-                .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
-                .setUsage(AudioAttributes.USAGE_MEDIA)
-                .build()
-        )
-    }
+    private var mediaPlayer: MediaPlayer = MediaPlayer()
     override var isInitialized = false
     override val isPlaying: Boolean = isInitialized && mediaPlayer.isPlaying
     override val audioSessionId: Int = mediaPlayer.audioSessionId
+    private var callbacks: PlaybackService.PlaybackCallbacks? = null
     private var mNextMediaPlayer: MediaPlayer? = null
+
+    override fun setCallbacks(callbacks: PlaybackService.PlaybackCallbacks) {
+        this.callbacks = callbacks
+    }
 
     override fun setDataSource(path: String): Boolean {
         isInitialized = false
@@ -35,20 +33,26 @@ class MusicServiceImpl(
         return isInitialized
     }
 
-    private fun setDataSourceImpl(mediaPlayer: MediaPlayer, path: String): Boolean {
+    private fun setDataSourceImpl(player: MediaPlayer, path: String): Boolean {
         try {
-            mediaPlayer.release()
-            mediaPlayer.setOnPreparedListener(null)
+            player.reset()
+            player.setOnPreparedListener(null)
             if (path.startsWith("content://")) {
-                mediaPlayer.setDataSource(context, Uri.parse(path))
+                player.setDataSource(context, Uri.parse(path))
             } else {
-                mediaPlayer.setDataSource(path)
+                player.setDataSource(path)
             }
+            player.prepare()
         } catch (e: Exception) {
             return false
         }
-        mediaPlayer.setOnCompletionListener(this)
-        mediaPlayer.setOnErrorListener(this)
+        player.setOnCompletionListener(this)
+        player.setOnErrorListener(this)
+        val intent = Intent(AudioEffect.ACTION_OPEN_AUDIO_EFFECT_CONTROL_SESSION)
+        intent.putExtra(AudioEffect.EXTRA_AUDIO_SESSION, audioSessionId)
+        intent.putExtra(AudioEffect.EXTRA_PACKAGE_NAME, context.packageName)
+        intent.putExtra(AudioEffect.EXTRA_CONTENT_TYPE, AudioEffect.CONTENT_TYPE_MUSIC)
+        context.sendBroadcast(intent)
         return true
     }
 
@@ -65,9 +69,8 @@ class MusicServiceImpl(
         try {
             mediaPlayer.setNextMediaPlayer(null)
         } catch (e: IllegalArgumentException) {
-            Log.i("MusicPlayer", "Next media player is current one, continuing");
+            Log.i("MusicPlayer", "Next media player is current one, continuing")
         } catch (e: IllegalStateException) {
-            Log.e("MusicPlayer", "Media player not initialized!");
             return
         }
         if (mNextMediaPlayer != null) {
@@ -77,7 +80,7 @@ class MusicServiceImpl(
         mNextMediaPlayer = MediaPlayer()
         mNextMediaPlayer!!.setWakeMode(context, PowerManager.PARTIAL_WAKE_LOCK)
         mNextMediaPlayer!!.audioSessionId = audioSessionId
-        if (setDataSourceImpl(mNextMediaPlayer!!, path.toString())) {
+        if (setDataSourceImpl(mediaPlayer, path.toString())) {
             try {
                 mNextMediaPlayer!!.setNextMediaPlayer(mNextMediaPlayer)
             } catch (e: IllegalArgumentException) {
@@ -100,7 +103,6 @@ class MusicServiceImpl(
     }
 
     override fun onError(p0: MediaPlayer?, p1: Int, p2: Int): Boolean {
-        Log.e("onError", "onError: ", )
         isInitialized = false
         mediaPlayer.release()
         mediaPlayer = MediaPlayer()
@@ -109,6 +111,15 @@ class MusicServiceImpl(
     }
 
     override fun onCompletion(p0: MediaPlayer?) {
-        Log.e("MusicPlayer", "onCompletion: ")
+        if (p0 === mediaPlayer && mNextMediaPlayer != null) {
+            isInitialized = false
+            mediaPlayer.release()
+            mediaPlayer = mNextMediaPlayer as MediaPlayer
+            isInitialized = true
+            mNextMediaPlayer = null
+            if (callbacks != null) callbacks!!.onTrackWentToNext()
+        } else {
+            if (callbacks != null) callbacks!!.onTrackEnded()
+        }
     }
 }

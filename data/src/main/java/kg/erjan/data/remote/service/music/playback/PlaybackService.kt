@@ -8,6 +8,8 @@ interface PlaybackService {
 
     val audioSessionId: Int
 
+    fun setCallbacks(callbacks: PlaybackCallbacks)
+
     fun setDataSource(path: String): Boolean
 
     fun startMusic(): Boolean

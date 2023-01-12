@@ -6,13 +6,11 @@ import android.os.IBinder
 import androidx.core.content.ContextCompat
 import kg.erjan.domain.entities.tracks.Tracks
 import java.util.*
-import javax.inject.Inject
 
-class MusicPlayerRemote @Inject constructor(
-    var musicService: MusicService?
-) {
+class MusicPlayerRemote {
 
     private val connectionMap = WeakHashMap<Context, ServiceBinder>()
+    var musicService: MusicService? = null
 
     fun bindService(context: Context, callback: ServiceConnection): ServiceToken? {
         var activity: Activity? = (context as Activity).parent

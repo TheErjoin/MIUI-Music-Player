@@ -15,13 +15,20 @@ import java.util.*
 class MusicService : Service(), PlaybackService.PlaybackCallbacks,
     SharedPreferences.OnSharedPreferenceChangeListener {
 
-    private val playbackService: PlaybackService by lazy {
-        MusicServiceImpl(this)
-    }
+    private var playbackService: PlaybackService = MusicServiceImpl(this)
     private val musicBind: IBinder = MusicBinder(this)
     private var position = -1
     private var originalPlayerQueue = mutableListOf<Tracks>()
     private var playingQueue: ArrayList<Tracks> = ArrayList<Tracks>()
+
+    override fun onCreate() {
+        super.onCreate()
+        playbackService.setCallbacks(this)
+    }
+
+    override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+        return START_NOT_STICKY
+    }
 
     private fun getSongAt(position: Int): Tracks {
         return playingQueue[position]
@@ -47,10 +54,6 @@ class MusicService : Service(), PlaybackService.PlaybackCallbacks,
     }
 
     private fun playSongAtImpl(position: Int) {
-        Log.e(
-            "currentOpen",
-            "playSongAtImpl: ${openTrackAndPrepareNextAt(position)},${openCurrent()}"
-        )
         if (openTrackAndPrepareNextAt(position)) {
             play()
         } else {
@@ -59,11 +62,16 @@ class MusicService : Service(), PlaybackService.PlaybackCallbacks,
     }
 
     private fun play() {
-        playbackService.startMusic()
+        if (!playbackService.isPlaying) {
+            if (!playbackService.isInitialized) {
+                playSongAtImpl(position)
+            } else {
+                playbackService.startMusic()
+            }
+        }
     }
 
     private fun openTrackAndPrepareNextAt(position: Int): Boolean {
-        Log.e("position", "openTrackAndPrepareNextAt: $position")
             this.position = position
             val prepared = openCurrent()
             if (prepared) {
@@ -77,7 +85,7 @@ class MusicService : Service(), PlaybackService.PlaybackCallbacks,
         return true
     }
 
-    private fun openCurrent(): Boolean {
+    private fun openCurrent(): Boolean = synchronized(this) {
         return playbackService.setDataSource(
             getTrackUri(
                 Objects.requireNonNull(
@@ -91,8 +99,6 @@ class MusicService : Service(), PlaybackService.PlaybackCallbacks,
         return MusicUtil().getSongFileUri(tracks.id).toString()
     }
 
-    class MusicBinder(val service: MusicService) : Binder()
-
     override fun onTrackWentToNext() {
     }
 
@@ -101,4 +107,6 @@ class MusicService : Service(), PlaybackService.PlaybackCallbacks,
 
     override fun onSharedPreferenceChanged(p0: SharedPreferences?, p1: String?) {
     }
+
+    class MusicBinder(val service: MusicService) : Binder()
 }
