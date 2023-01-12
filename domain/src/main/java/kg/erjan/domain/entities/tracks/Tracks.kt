@@ -1,8 +1,16 @@
 package kg.erjan.domain.entities.tracks
 
 class Tracks(
-    val path: String,
-    val nameTrack: String,
-    val albumTrack: String,
-    val artistTrack: String
+    val id: Int,
+    val title: String,
+    val trackNumber: Int,
+    val year: Int,
+    val duration: Long,
+    val data: String,
+    val dateModified: Long,
+    val albumId: Int,
+    val albumName: String,
+    val artistId: Int,
+    val artistName: String,
+    val composer: String?
 )
