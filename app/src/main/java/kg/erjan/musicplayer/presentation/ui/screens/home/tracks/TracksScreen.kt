@@ -59,10 +59,6 @@ private fun TrackList(tracks: List<Tracks>, viewModel: TracksViewModel) {
     }
 }
 
-private fun getTrackUri(id: Int): String {
-    return MusicUtil().getSongFileUri(id).toString()
-}
-
 @Composable
 private fun ItemTrack(onClick: () -> Unit, tracks: Tracks) {
     Box(

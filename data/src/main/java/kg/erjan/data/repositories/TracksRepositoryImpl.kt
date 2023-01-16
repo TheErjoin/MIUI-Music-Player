@@ -9,9 +9,7 @@ class TracksRepositoryImpl @Inject constructor(
     private val service: TracksService
 ) : TracksRepository, BaseRepository() {
 
-    override fun fetchTracks() = doRequestWithoutMapping {
-        service.fetchTracks().map {
-            it.mapToDomain()
-        }
+    override fun fetchTracks() = doRequestForList {
+        service.fetchTracks()
     }
 }
