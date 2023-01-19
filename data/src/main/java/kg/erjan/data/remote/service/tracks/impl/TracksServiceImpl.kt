@@ -8,6 +8,7 @@ import kg.erjan.data.remote.dto.TracksDto
 import kg.erjan.data.remote.service.tracks.TracksService
 import kg.erjan.data.utils.Constants.BASE_SELECTION
 import kg.erjan.data.utils.Constants.baseProjection
+import retrofit2.Response
 import javax.inject.Inject
 
 class TracksServiceImpl @Inject constructor(
@@ -15,9 +16,9 @@ class TracksServiceImpl @Inject constructor(
     private val musicPreferencesData: MusicPreferencesData
 ) : TracksService {
 
-    override suspend fun fetchTracks(): List<TracksDto> {
+    override suspend fun fetchTracks(): Response<List<TracksDto>> {
         val cursor = makeSongCursor(context, null, null)
-        return getSongs(cursor)
+        return Response.success(getSongs(cursor))
     }
 
     private fun getSongs(
