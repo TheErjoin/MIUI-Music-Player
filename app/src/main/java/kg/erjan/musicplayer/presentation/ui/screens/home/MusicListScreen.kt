@@ -23,28 +23,47 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.navigation.NavHostController
 import com.google.accompanist.pager.*
 import com.google.accompanist.permissions.*
 import kg.erjan.musicplayer.R
 import kg.erjan.musicplayer.presentation.App
+import kg.erjan.musicplayer.presentation.ui.screens.components.MiniPlayer
+import kg.erjan.musicplayer.presentation.ui.screens.components.MusicCard
 import kg.erjan.musicplayer.presentation.ui.screens.home.albums.AlbumsScreen
-import kg.erjan.musicplayer.presentation.ui.screens.home.components.MusicCard
 import kg.erjan.musicplayer.presentation.ui.screens.home.packages.PackagesScreen
 import kg.erjan.musicplayer.presentation.ui.screens.home.performers.PerformersScreen
 import kg.erjan.musicplayer.presentation.ui.screens.home.tracks.TracksScreen
 import kg.erjan.musicplayer.presentation.ui.theme.*
 import kotlinx.coroutines.launch
 
-@OptIn(ExperimentalPermissionsApi::class)
 @Composable
 fun MusicListScreen(navController: NavHostController) {
+    ConstraintLayout {
+        val (homeComponents, miniPlayer) = createRefs()
+        HomeComponents(
+            navController = navController,
+            modifier = Modifier.constrainAs(homeComponents) {
+                top.linkTo(parent.top)
+            }
+        )
+        MiniPlayer(
+            modifier = Modifier.constrainAs(miniPlayer) {
+                bottom.linkTo(parent.bottom)
+            }
+        )
+    }
+}
+
+@OptIn(ExperimentalPermissionsApi::class)
+@Composable
+fun HomeComponents(navController: NavHostController, modifier: Modifier) {
 
     val musicPermissionState = rememberPermissionState(
         android.Manifest.permission.READ_EXTERNAL_STORAGE
     )
-
-    Column(modifier = Modifier.padding(16.dp)) {
+    Column(modifier = modifier.padding(16.dp)) {
         Row(
             verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(top = 2.dp)
         ) {

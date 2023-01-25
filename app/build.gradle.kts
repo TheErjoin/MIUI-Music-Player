@@ -82,6 +82,8 @@ dependencies {
     implementation(Libraries.Compose.accompanistPagerIndicators)
     implementation(Libraries.Compose.hiltNavigation)
     implementation(Libraries.Compose.accompanistPermission)
+    implementation(Libraries.Compose.constraintCompose)
+    implementation(Libraries.Compose.animatedNavHost)
 
     // Retrofit
     implementation(Libraries.Retrofit.retrofit)

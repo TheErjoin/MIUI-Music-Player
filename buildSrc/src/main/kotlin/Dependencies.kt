@@ -13,6 +13,7 @@ object Versions {
     const val okHttp = "5.0.0-alpha.10"
     const val prettyLoggingInterceptor = "3.1.0"
     const val paging = "3.1.1"
+    const val constraintCompose = "1.0.1"
     const val composeUiVersion = "1.2.1"
     const val composeCompiler = "1.3.2"
     const val composeFoundation = "1.2.1"
@@ -25,6 +26,7 @@ object Versions {
     const val navigationCompose = "2.5.3"
     const val hiltNavigation = "1.0.0"
     const val preference = "1.2.0"
+    const val animationNavHost = "0.27.0"
 }
 
 object Libraries {
@@ -52,11 +54,15 @@ object Libraries {
         const val composeMaterial = "androidx.compose.material:material:${
             Versions.composeMaterial
         }"
+        const val constraintCompose =
+            "androidx.constraintlayout:constraintlayout-compose:${Versions.constraintCompose}"
         const val coilCompose = "io.coil-kt:coil-compose:${Versions.coilCompose}"
         const val hiltNavigation =
             "androidx.hilt:hilt-navigation-compose:${Versions.hiltNavigation}"
         const val navigationCompose =
             "androidx.navigation:navigation-compose:${Versions.navigationCompose}"
+        const val animatedNavHost =
+            "com.google.accompanist:accompanist-navigation-animation:${Versions.animationNavHost}"
         const val accompanistPager =
             "com.google.accompanist:accompanist-pager:${Versions.accompanistPager}"
         const val accompanistPermission =
