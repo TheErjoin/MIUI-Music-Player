@@ -1,21 +1,36 @@
 package kg.erjan.musicplayer.presentation.ui.navigation
 
+import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.runtime.Composable
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
-import androidx.navigation.compose.rememberNavController
+import com.google.accompanist.navigation.animation.AnimatedNavHost
+import com.google.accompanist.navigation.animation.composable
+import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import kg.erjan.musicplayer.presentation.ui.screens.home.MusicListScreen
 import kg.erjan.musicplayer.presentation.ui.screens.track.TrackScreen
+import kg.erjan.musicplayer.presentation.ui.utils.FadeTransition
+import kg.erjan.musicplayer.presentation.ui.utils.SlideTransition
 
+@OptIn(ExperimentalAnimationApi::class)
 @Composable
-fun MainGraphNavigation(){
-    val navController = rememberNavController()
-    NavHost(navController = navController, startDestination = Screen.MUSIC_LIST.route){
-        composable(route = Screen.MUSIC_LIST.route){
+fun MainGraphNavigation() {
+    val navController = rememberAnimatedNavController()
+    AnimatedNavHost(
+        navController = navController,
+        startDestination = Screen.MUSIC_LIST.route
+    ) {
+        composable(
+            route = Screen.MUSIC_LIST.route,
+        ) {
             MusicListScreen(navController)
         }
-        composable(route = Screen.TRACK_SCREEN.route){
-            TrackScreen()
+        composable(
+            route = Screen.TRACK_SCREEN.route,
+            enterTransition = { SlideTransition.slideUp.enterTransition() },
+            exitTransition = { SlideTransition.slideDown.exitTransition() },
+            popEnterTransition = { FadeTransition.enterTransition() },
+            popExitTransition = { SlideTransition.slideDown.exitTransition() }
+        ) {
+            TrackScreen(navController)
         }
     }
 }

@@ -1,4 +1,4 @@
-package kg.erjan.musicplayer.presentation.ui.screens.home.components
+package kg.erjan.musicplayer.presentation.ui.screens.components
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable

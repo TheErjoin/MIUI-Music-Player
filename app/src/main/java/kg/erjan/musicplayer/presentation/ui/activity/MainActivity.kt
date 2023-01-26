@@ -8,8 +8,9 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material.Surface
 import androidx.compose.ui.Modifier
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import dagger.hilt.android.AndroidEntryPoint
@@ -56,9 +57,10 @@ class MainActivity : ComponentActivity() {
     private fun setContentCompose() {
         setContent {
             MusicPlayerTheme {
-                Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = MainBackgroundColor
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .background(MainBackgroundColor),
                 ) {
                     MainGraphNavigation()
                 }

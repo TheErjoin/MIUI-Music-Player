@@ -15,6 +15,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.PagerState
@@ -25,7 +26,7 @@ import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalPagerApi::class)
 @Composable
-fun TrackScreen() {
+fun TrackScreen(navController: NavHostController) {
     val pagerState = rememberPagerState(initialPage = 0)
     val tabData = listOf(
         stringResource(R.string.tracks),
@@ -38,7 +39,7 @@ fun TrackScreen() {
             .fillMaxSize()
     ) {
         Spacer(modifier = Modifier.height(6.dp))
-        ToolbarMusicInfo(pagerState, tabData)
+        ToolbarMusicInfo(pagerState, tabData, navController)
         Spacer(modifier = Modifier.height(22.dp))
         LogoAndLyricsMusic(pagerState, tabData)
         Spacer(modifier = Modifier.height(42.dp))
@@ -249,7 +250,11 @@ private fun MusicInfo() {
 
 @OptIn(ExperimentalPagerApi::class)
 @Composable
-private fun ToolbarMusicInfo(pagerState: PagerState, tabData: List<String>) {
+private fun ToolbarMusicInfo(
+    pagerState: PagerState,
+    tabData: List<String>,
+    navController: NavHostController
+) {
     Box(
         modifier = Modifier
             .fillMaxWidth()
@@ -260,7 +265,9 @@ private fun ToolbarMusicInfo(pagerState: PagerState, tabData: List<String>) {
             contentDescription = null,
             modifier = Modifier
                 .align(Alignment.CenterStart)
-                .clickable { /*TODO onClick */ },
+                .clickable {
+                    navController.navigateUp()
+                },
         )
         Tabs(pagerState, tabData, Modifier.align(Alignment.Center))
         Image(
