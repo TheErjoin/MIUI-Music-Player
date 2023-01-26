@@ -51,7 +51,8 @@ fun MusicListScreen(navController: NavHostController) {
         MiniPlayer(
             modifier = Modifier.constrainAs(miniPlayer) {
                 bottom.linkTo(parent.bottom)
-            }
+            },
+            navController = navController
         )
     }
 }

@@ -28,9 +28,9 @@ fun MainGraphNavigation() {
             enterTransition = { SlideTransition.slideUp.enterTransition() },
             exitTransition = { SlideTransition.slideDown.exitTransition() },
             popEnterTransition = { FadeTransition.enterTransition() },
-            popExitTransition = { FadeTransition.exitTransition() }
+            popExitTransition = { SlideTransition.slideDown.exitTransition() }
         ) {
-            TrackScreen()
+            TrackScreen(navController)
         }
     }
 }
