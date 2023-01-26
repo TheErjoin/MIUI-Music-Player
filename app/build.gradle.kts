@@ -85,23 +85,6 @@ dependencies {
     implementation(Libraries.Compose.constraintCompose)
     implementation(Libraries.Compose.animatedNavHost)
 
-    // Retrofit
-    implementation(Libraries.Retrofit.retrofit)
-    implementation(Libraries.Retrofit.converterGson)
-
     //Coil
     implementation(Libraries.Compose.coilCompose)
-
-    // OkHttp
-    implementation(Libraries.OkHttp.bom)
-    implementation(Libraries.OkHttp.okHttp)
-    implementation(Libraries.OkHttp.loggingInterceptor)
-//    implementation(Libraries.OkHttp.prettyLoggingInterceptor) {
-//        exclude(group = "org.json", module = "json")
-//    }
-
-    // Paging
-    api(Libraries.Paging.runtime)
-    implementation(Libraries.Paging.common)
-    implementation(Libraries.Paging.pagingCompose)
 }
