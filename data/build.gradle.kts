@@ -45,16 +45,4 @@ dependencies {
 
     //AndroidX
     implementation(Libraries.AndroidX.preference)
-
-    // OkHttp
-    implementation(Libraries.OkHttp.bom)
-    implementation(Libraries.OkHttp.okHttp) 
-    implementation(Libraries.OkHttp.loggingInterceptor)
-
-    // Room
-    api(Libraries.Room.runtime)
-    ksp(Libraries.Room.compiler)
-
-    // Paging 3
-    api(Libraries.Paging.runtime)
 }
