@@ -54,19 +54,17 @@ fun MiniPlayer(modifier: Modifier, navController: NavHostController) {
                     .fillMaxWidth()
                     .wrapContentHeight(),
             ) {
-                MiniPlayerContent()
-                IconButton(onClick = {
-                    /*TODO onClick play*/
-                }) {
+                Box(modifier = Modifier.weight(1F)) {
+                    MiniPlayerContent()
+                }
+                IconButton(onClick = { /*TODO onClick play*/ }) {
                     Image(
                         painter = painterResource(id = R.drawable.ic_play),
                         contentDescription = null
                     )
                 }
                 Spacer(modifier = Modifier.width(8.dp))
-                IconButton(onClick = {
-                    /*TODO onClick skip next*/
-                }) {
+                IconButton(onClick = { /*TODO onClick skip next*/ }) {
                     Image(
                         painter = painterResource(id = R.drawable.ic_skip_next),
                         contentDescription = null
