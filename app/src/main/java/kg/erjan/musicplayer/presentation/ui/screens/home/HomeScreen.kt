@@ -23,7 +23,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.navigation.NavHostController
 import com.google.accompanist.pager.*
 import com.google.accompanist.permissions.*
@@ -40,18 +39,12 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun MusicListScreen(navController: NavHostController) {
-    ConstraintLayout {
-        val (homeComponents, miniPlayer) = createRefs()
+    Box {
         HomeComponents(
             navController = navController,
-            modifier = Modifier.constrainAs(homeComponents) {
-                top.linkTo(parent.top)
-            }
         )
         MiniPlayer(
-            modifier = Modifier.constrainAs(miniPlayer) {
-                bottom.linkTo(parent.bottom)
-            },
+            modifier = Modifier.align(Alignment.BottomCenter),
             navController = navController
         )
     }
@@ -59,12 +52,12 @@ fun MusicListScreen(navController: NavHostController) {
 
 @OptIn(ExperimentalPermissionsApi::class)
 @Composable
-fun HomeComponents(navController: NavHostController, modifier: Modifier) {
+fun HomeComponents(navController: NavHostController) {
 
     val musicPermissionState = rememberPermissionState(
         android.Manifest.permission.READ_EXTERNAL_STORAGE
     )
-    Column(modifier = modifier.padding(16.dp)) {
+    Column(modifier = Modifier.padding(16.dp)) {
         Row(
             verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(top = 2.dp)
         ) {
