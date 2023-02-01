@@ -8,7 +8,10 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.IconButton
 import androidx.compose.material.Text
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -19,6 +22,8 @@ import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
+import kg.erjan.data.remote.service.music.MusicPlayerRemote
+import kg.erjan.domain.entities.tracks.Tracks
 import kg.erjan.musicplayer.R
 import kg.erjan.musicplayer.presentation.extensions.navigateSafely
 import kg.erjan.musicplayer.presentation.ui.navigation.Screen
@@ -26,7 +31,14 @@ import kg.erjan.musicplayer.presentation.ui.theme.EerieBlack
 import kg.erjan.musicplayer.presentation.ui.theme.SpanishGray
 
 @Composable
-fun MiniPlayer(modifier: Modifier, navController: NavHostController) {
+fun MiniPlayer(
+    modifier: Modifier,
+    navController: NavHostController,
+    player: MusicPlayerRemote
+) {
+    val currentSong by remember {
+        mutableStateOf(player.currentSong)
+    }
 
     AnimatedVisibility(
         visible = true,
@@ -55,7 +67,7 @@ fun MiniPlayer(modifier: Modifier, navController: NavHostController) {
                     .wrapContentHeight(),
             ) {
                 Box(modifier = Modifier.weight(1F)) {
-                    MiniPlayerContent()
+                    currentSong?.let { MiniPlayerContent(tracks = it) }
                 }
                 IconButton(onClick = { /*TODO onClick play*/ }) {
                     Image(
@@ -77,7 +89,7 @@ fun MiniPlayer(modifier: Modifier, navController: NavHostController) {
 }
 
 @Composable
-fun MiniPlayerContent() {
+fun MiniPlayerContent(tracks: Tracks) {
     Row(verticalAlignment = Alignment.CenterVertically) {
         Spacer(modifier = Modifier.width(18.dp))
         Image(
@@ -92,7 +104,7 @@ fun MiniPlayerContent() {
             modifier = Modifier.weight(1f)
         ) {
             Text(
-                "Let me hear",
+                text = tracks.title,
                 maxLines = 2,
                 overflow = TextOverflow.Ellipsis,
                 color = Color.White,
@@ -100,7 +112,7 @@ fun MiniPlayerContent() {
             )
             Spacer(modifier = Modifier.height(4.dp))
             Text(
-                "Fear and loathing in las vegas",
+                text = tracks.artistName,
                 fontSize = 12.sp,
                 maxLines = 2,
                 overflow = TextOverflow.Ellipsis,

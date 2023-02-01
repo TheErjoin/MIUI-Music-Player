@@ -1,4 +1,4 @@
-package kg.erjan.musicplayer.presentation.ui.screens.track
+package kg.erjan.musicplayer.presentation.ui.screens.player
 
 import androidx.compose.foundation.*
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -26,7 +26,7 @@ import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalPagerApi::class)
 @Composable
-fun TrackScreen(navController: NavHostController) {
+fun PlayerScreen(navController: NavHostController) {
     val pagerState = rememberPagerState(initialPage = 0)
     val tabData = listOf(
         stringResource(R.string.tracks),

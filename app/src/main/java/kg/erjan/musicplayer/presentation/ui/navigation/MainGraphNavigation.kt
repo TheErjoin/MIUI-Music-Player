@@ -6,7 +6,7 @@ import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.composable
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import kg.erjan.musicplayer.presentation.ui.screens.home.MusicListScreen
-import kg.erjan.musicplayer.presentation.ui.screens.track.TrackScreen
+import kg.erjan.musicplayer.presentation.ui.screens.player.PlayerScreen
 import kg.erjan.musicplayer.presentation.ui.utils.FadeTransition
 import kg.erjan.musicplayer.presentation.ui.utils.SlideTransition
 
@@ -30,7 +30,7 @@ fun MainGraphNavigation() {
             popEnterTransition = { FadeTransition.enterTransition() },
             popExitTransition = { SlideTransition.slideDown.exitTransition() }
         ) {
-            TrackScreen(navController)
+            PlayerScreen(navController)
         }
     }
 }

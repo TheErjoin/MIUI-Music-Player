@@ -51,7 +51,7 @@ class MusicService : Service(), PlaybackService.PlaybackCallbacks,
         }
     }
 
-    private fun getCurrentSong(): Tracks {
+    fun getCurrentSong(): Tracks {
         return getSongAt(position)
     }
 
@@ -78,7 +78,6 @@ class MusicService : Service(), PlaybackService.PlaybackCallbacks,
     }
 
     private fun playSongAt(position: Int) {
-        // handle this on the handlers thread to avoid blocking the ui thread
         playerHandler!!.removeMessages(PLAY_SONG)
         playerHandler!!.obtainMessage(PLAY_SONG, position, 0).sendToTarget()
     }

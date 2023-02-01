@@ -12,6 +12,9 @@ class MusicPlayerRemote {
     private val connectionMap = WeakHashMap<Context, ServiceBinder>()
     var musicService: MusicService? = null
 
+    val currentSong: Tracks?
+        get() = if (musicService != null) musicService!!.getCurrentSong() else null
+
     fun bindService(context: Context, callback: ServiceConnection): ServiceToken? {
         var activity: Activity? = (context as Activity).parent
         if (activity == null) {

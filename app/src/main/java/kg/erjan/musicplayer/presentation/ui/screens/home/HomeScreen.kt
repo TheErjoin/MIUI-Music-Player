@@ -23,6 +23,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.google.accompanist.pager.*
 import com.google.accompanist.permissions.*
@@ -38,14 +39,18 @@ import kg.erjan.musicplayer.presentation.ui.theme.*
 import kotlinx.coroutines.launch
 
 @Composable
-fun MusicListScreen(navController: NavHostController) {
+fun MusicListScreen(
+    navController: NavHostController,
+    viewModel: HomeViewModel = hiltViewModel()
+) {
     Box {
         HomeComponents(
             navController = navController,
         )
         MiniPlayer(
             modifier = Modifier.align(Alignment.BottomCenter),
-            navController = navController
+            navController = navController,
+            player = viewModel.musicPlayerRemote
         )
     }
 }
