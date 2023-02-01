@@ -1,40 +1,46 @@
 package kg.erjan.musicplayer.presentation.ui.screens.components
 
 import androidx.compose.animation.*
-import androidx.compose.animation.core.animateFloatAsState
-import androidx.compose.animation.core.animateIntAsState
-import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.gestures.detectHorizontalDragGestures
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.IconButton
-import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavHostController
+import kg.erjan.domain.entities.tracks.Tracks
 import kg.erjan.musicplayer.R
-import kg.erjan.musicplayer.presentation.extensions.navigateSafely
+import kg.erjan.musicplayer.presentation.extensions.navigate
 import kg.erjan.musicplayer.presentation.ui.navigation.Screen
 import kg.erjan.musicplayer.presentation.ui.theme.EerieBlack
 import kg.erjan.musicplayer.presentation.ui.theme.SpanishGray
+import kg.erjan.musicplayer.presentation.ui.utils.Auxiliary
 
-@OptIn(ExperimentalAnimationApi::class)
 @Composable
-fun MiniPlayer(modifier: Modifier, navController: NavHostController) {
+fun MiniPlayer(
+    modifier: Modifier,
+    auxiliary: Auxiliary
+) {
+    val currentSong by remember {
+        mutableStateOf(auxiliary.musicPlayerRemote.currentSong)
+    }
+
+    val isPlaying by remember {
+        mutableStateOf(auxiliary.musicPlayerRemote.isPlaying)
+    }
 
     AnimatedVisibility(
         visible = true,
@@ -52,7 +58,7 @@ fun MiniPlayer(modifier: Modifier, navController: NavHostController) {
                     EerieBlack
                 )
                 .clickable {
-                    navController.navigateSafely(Screen.TRACK_SCREEN.route)
+                    auxiliary.navController.navigate(Screen.TRACK_SCREEN)
                 }
         ) {
             Row(
@@ -62,63 +68,18 @@ fun MiniPlayer(modifier: Modifier, navController: NavHostController) {
                     .fillMaxWidth()
                     .wrapContentHeight(),
             ) {
-                AnimatedContent(
-                    targetState = "Song",
-                    modifier = Modifier.weight(1F),
-                    transitionSpec = {
-                        fadeIn(
-                            animationSpec = tween(220, delayMillis = 90)
-                        ) + scaleIn(
-                            initialScale = 0.99f,
-                            animationSpec = tween(220, delayMillis = 90)
-                        ) with fadeOut(animationSpec = tween(90))
-                    },
-                ) { song ->
-                    BoxWithConstraints {
-                        val cardWidthPx = constraints.maxWidth
-                        var offsetX by remember { mutableStateOf(0f) }
-                        val cardOffsetX = animateIntAsState(offsetX.toInt())
-                        val cardOpacity = animateFloatAsState(
-                            if (offsetX != 0f) 0.7f else 1f,
-                        )
-                        Box(
-                            modifier = Modifier
-                                .alpha(cardOpacity.value)
-                                .absoluteOffset {
-                                    IntOffset(cardOffsetX.value.div(2), 0)
-                                }
-                                .pointerInput(Unit) {
-                                    detectHorizontalDragGestures(
-                                        onDragEnd = {
-                                            val thresh = cardWidthPx / 4
-                                            offsetX = when {
-                                                -offsetX > thresh -> {
-                                                    val changed = true
-                                                    if (changed) -cardWidthPx.toFloat() else 0f
-                                                }
-                                                offsetX > thresh -> {
-                                                    val changed = true
-                                                    if (changed) cardWidthPx.toFloat() else 0f
-                                                }
-                                                else -> 0f
-                                            }
-                                        },
-                                        onDragCancel = {
-                                            offsetX = 0f
-                                        },
-                                        onHorizontalDrag = { _, dragAmount ->
-                                            offsetX += dragAmount
-                                        },
-                                    )
-                                },
-                        ) {
-                            MiniPlayerContent()
-                        }
-                    }
+                Box(modifier = Modifier.weight(1F)) {
+                    MiniPlayerContent(tracks = currentSong)
                 }
-                IconButton(onClick = { /*TODO onClick play*/ }) {
+                IconButton(onClick = {
+                    if (!isPlaying){
+                        auxiliary.musicPlayerRemote.resumePlaying()
+                    }else{
+                        auxiliary.musicPlayerRemote.pauseSong()
+                    }
+                }) {
                     Image(
-                        painter = painterResource(id = R.drawable.ic_play),
+                        painter = painterResource(id = if (!isPlaying) R.drawable.ic_play else R.drawable.ic_pause),
                         contentDescription = null
                     )
                 }
@@ -136,7 +97,7 @@ fun MiniPlayer(modifier: Modifier, navController: NavHostController) {
 }
 
 @Composable
-fun MiniPlayerContent() {
+fun MiniPlayerContent(tracks: Tracks) {
     Row(verticalAlignment = Alignment.CenterVertically) {
         Spacer(modifier = Modifier.width(18.dp))
         Image(
@@ -151,7 +112,7 @@ fun MiniPlayerContent() {
             modifier = Modifier.weight(1f)
         ) {
             Text(
-                "Let me hear",
+                text = tracks.title,
                 maxLines = 2,
                 overflow = TextOverflow.Ellipsis,
                 color = Color.White,
@@ -159,7 +120,7 @@ fun MiniPlayerContent() {
             )
             Spacer(modifier = Modifier.height(4.dp))
             Text(
-                "Fear and loathing in las vegas",
+                text = tracks.artistName,
                 fontSize = 12.sp,
                 maxLines = 2,
                 overflow = TextOverflow.Ellipsis,

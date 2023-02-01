@@ -51,17 +51,17 @@ class MusicService : Service(), PlaybackService.PlaybackCallbacks,
         }
     }
 
-    private fun getCurrentSong(): Tracks {
-        return getSongAt(position)
-    }
+    fun getCurrentSong(): Tracks = getSongAt(position)
+
+    fun isPlaying(): Boolean = playbackService.isPlaying()
 
     override fun onBind(p0: Intent?): IBinder {
         return musicBind
     }
 
-    private fun play() {
-        if (!playbackService.isPlaying) {
-            if (!playbackService.isInitialized) {
+    fun play() {
+        if (!playbackService.isPlaying()) {
+            if (!playbackService.isInitialized()) {
                 playSongAt(position)
             } else {
                 playbackService.startMusic()
@@ -70,6 +70,7 @@ class MusicService : Service(), PlaybackService.PlaybackCallbacks,
     }
 
     fun playSongAtImpl(position: Int) {
+        Log.e("isPlaying", "playSongAtImpl: ${isPlaying()}", )
         if (openTrackAndPrepareNextAt(position)) {
             play()
         } else {
@@ -77,8 +78,13 @@ class MusicService : Service(), PlaybackService.PlaybackCallbacks,
         }
     }
 
+    fun pause(){
+        if (playbackService.isPlaying()){
+            playbackService.pause()
+        }
+    }
+
     private fun playSongAt(position: Int) {
-        // handle this on the handlers thread to avoid blocking the ui thread
         playerHandler!!.removeMessages(PLAY_SONG)
         playerHandler!!.obtainMessage(PLAY_SONG, position, 0).sendToTarget()
     }

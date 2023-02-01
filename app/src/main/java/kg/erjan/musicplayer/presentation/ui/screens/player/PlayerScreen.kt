@@ -1,4 +1,4 @@
-package kg.erjan.musicplayer.presentation.ui.screens.track
+package kg.erjan.musicplayer.presentation.ui.screens.player
 
 import androidx.compose.foundation.*
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -22,11 +22,12 @@ import com.google.accompanist.pager.PagerState
 import com.google.accompanist.pager.rememberPagerState
 import kg.erjan.musicplayer.R
 import kg.erjan.musicplayer.presentation.ui.theme.*
+import kg.erjan.musicplayer.presentation.ui.utils.Auxiliary
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalPagerApi::class)
 @Composable
-fun TrackScreen(navController: NavHostController) {
+fun PlayerScreen(auxiliary: Auxiliary) {
     val pagerState = rememberPagerState(initialPage = 0)
     val tabData = listOf(
         stringResource(R.string.tracks),
@@ -39,7 +40,7 @@ fun TrackScreen(navController: NavHostController) {
             .fillMaxSize()
     ) {
         Spacer(modifier = Modifier.height(6.dp))
-        ToolbarMusicInfo(pagerState, tabData, navController)
+        ToolbarMusicInfo(pagerState, tabData, auxiliary.navController)
         Spacer(modifier = Modifier.height(22.dp))
         LogoAndLyricsMusic(pagerState, tabData)
         Spacer(modifier = Modifier.height(42.dp))

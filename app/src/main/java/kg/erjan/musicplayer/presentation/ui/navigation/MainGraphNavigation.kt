@@ -5,15 +5,25 @@ import androidx.compose.runtime.Composable
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.composable
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
+import kg.erjan.data.remote.service.music.MusicPlayerRemote
+import kg.erjan.musicplayer.presentation.ui.activity.MainActivity
 import kg.erjan.musicplayer.presentation.ui.screens.home.MusicListScreen
-import kg.erjan.musicplayer.presentation.ui.screens.track.TrackScreen
+import kg.erjan.musicplayer.presentation.ui.screens.player.PlayerScreen
+import kg.erjan.musicplayer.presentation.ui.utils.Auxiliary
 import kg.erjan.musicplayer.presentation.ui.utils.FadeTransition
 import kg.erjan.musicplayer.presentation.ui.utils.SlideTransition
 
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
-fun MainGraphNavigation() {
+fun MainGraphNavigation(playerRemote: MusicPlayerRemote, mainActivity: MainActivity) {
     val navController = rememberAnimatedNavController()
+
+    val auxiliary = Auxiliary(
+        navController,
+        mainActivity,
+        playerRemote
+    )
+
     AnimatedNavHost(
         navController = navController,
         startDestination = Screen.MUSIC_LIST.route
@@ -21,7 +31,7 @@ fun MainGraphNavigation() {
         composable(
             route = Screen.MUSIC_LIST.route,
         ) {
-            MusicListScreen(navController)
+            MusicListScreen(auxiliary)
         }
         composable(
             route = Screen.TRACK_SCREEN.route,
@@ -30,7 +40,7 @@ fun MainGraphNavigation() {
             popEnterTransition = { FadeTransition.enterTransition() },
             popExitTransition = { SlideTransition.slideDown.exitTransition() }
         ) {
-            TrackScreen(navController)
+            PlayerScreen(auxiliary)
         }
     }
 }

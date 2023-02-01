@@ -2,11 +2,15 @@ package kg.erjan.data.remote.service.music.playback
 
 interface PlaybackService {
 
-    val isInitialized: Boolean
+    fun isInitialized(): Boolean
 
-    val isPlaying: Boolean
+    fun isPlaying(): Boolean
 
     val audioSessionId: Int
+
+    fun stop()
+
+    fun pause(): Boolean
 
     fun setCallbacks(callbacks: PlaybackCallbacks)
 
