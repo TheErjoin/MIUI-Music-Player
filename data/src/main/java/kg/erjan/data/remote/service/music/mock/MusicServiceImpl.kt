@@ -14,9 +14,15 @@ class MusicServiceImpl(
 ) : PlaybackService, MediaPlayer.OnErrorListener, MediaPlayer.OnCompletionListener {
 
     private var mediaPlayer: MediaPlayer = MediaPlayer()
-    override var isInitialized = false
-    override val isPlaying: Boolean = isInitialized && mediaPlayer.isPlaying
+
+    private var mIsInitialized = false
+
+    override fun isInitialized(): Boolean = mIsInitialized
+
+    override fun isPlaying(): Boolean = mIsInitialized && mediaPlayer.isPlaying
+
     override val audioSessionId: Int = mediaPlayer.audioSessionId
+
     private var callbacks: PlaybackService.PlaybackCallbacks? = null
     private var mNextMediaPlayer: MediaPlayer? = null
 
@@ -25,12 +31,12 @@ class MusicServiceImpl(
     }
 
     override fun setDataSource(path: String): Boolean {
-        isInitialized = false
-        isInitialized = setDataSourceImpl(mediaPlayer, path)
-        if (isInitialized) {
+        mIsInitialized = false
+        mIsInitialized = setDataSourceImpl(mediaPlayer, path)
+        if (mIsInitialized) {
             setNextDataSource(null)
         }
-        return isInitialized
+        return mIsInitialized
     }
 
     private fun setDataSourceImpl(player: MediaPlayer, path: String): Boolean {
@@ -59,6 +65,19 @@ class MusicServiceImpl(
     override fun startMusic(): Boolean {
         return try {
             mediaPlayer.start()
+            true
+        } catch (e: java.lang.IllegalStateException) {
+            false
+        }
+    }
+
+    override fun stop() {
+        mediaPlayer.reset()
+    }
+
+    override fun pause(): Boolean {
+        return try {
+            mediaPlayer.pause()
             true
         } catch (e: java.lang.IllegalStateException) {
             false
@@ -103,7 +122,7 @@ class MusicServiceImpl(
     }
 
     override fun onError(p0: MediaPlayer?, p1: Int, p2: Int): Boolean {
-        isInitialized = false
+        mIsInitialized = false
         mediaPlayer.release()
         mediaPlayer = MediaPlayer()
         mediaPlayer.setWakeMode(context, PowerManager.PARTIAL_WAKE_LOCK)
@@ -112,10 +131,10 @@ class MusicServiceImpl(
 
     override fun onCompletion(p0: MediaPlayer?) {
         if (p0 === mediaPlayer && mNextMediaPlayer != null) {
-            isInitialized = false
+            mIsInitialized = false
             mediaPlayer.release()
             mediaPlayer = mNextMediaPlayer as MediaPlayer
-            isInitialized = true
+            mIsInitialized = true
             mNextMediaPlayer = null
             if (callbacks != null) callbacks!!.onTrackWentToNext()
         } else {

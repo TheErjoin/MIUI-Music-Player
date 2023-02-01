@@ -9,6 +9,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.IconButton
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -33,8 +34,12 @@ fun MiniPlayer(
     modifier: Modifier,
     auxiliary: Auxiliary
 ) {
-    val currentSong = remember {
+    val currentSong by remember {
         mutableStateOf(auxiliary.musicPlayerRemote.currentSong)
+    }
+
+    val isPlaying by remember {
+        mutableStateOf(auxiliary.musicPlayerRemote.isPlaying)
     }
 
     AnimatedVisibility(
@@ -64,11 +69,17 @@ fun MiniPlayer(
                     .wrapContentHeight(),
             ) {
                 Box(modifier = Modifier.weight(1F)) {
-                    MiniPlayerContent(tracks = currentSong.value)
+                    MiniPlayerContent(tracks = currentSong)
                 }
-                IconButton(onClick = {  /*TODO onClick play*/ }) {
+                IconButton(onClick = {
+                    if (isPlaying){
+                        auxiliary.musicPlayerRemote.resumePlaying()
+                    }else{
+                        auxiliary.musicPlayerRemote.pauseSong()
+                    }
+                }) {
                     Image(
-                        painter = painterResource(id = R.drawable.ic_play),
+                        painter = painterResource(id = if (!isPlaying) R.drawable.ic_play else R.drawable.ic_pause),
                         contentDescription = null
                     )
                 }

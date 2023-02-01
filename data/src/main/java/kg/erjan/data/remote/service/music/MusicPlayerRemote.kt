@@ -15,6 +15,21 @@ class MusicPlayerRemote {
     val currentSong: Tracks
         get() = if (musicService != null) musicService!!.getCurrentSong() else Tracks.emptySong
 
+    val isPlaying : Boolean
+        get() = musicService != null && musicService!!.isPlaying()
+
+    fun pauseSong(){
+        musicService?.pause()
+    }
+
+    fun resumePlaying(){
+        musicService?.play()
+    }
+
+    fun openQueue(queue: List<Tracks>, startPosition: Int, startPlaying: Boolean) {
+        musicService?.openQueue(queue, startPosition, startPlaying)
+    }
+
     fun bindService(context: Context, callback: ServiceConnection): ServiceToken? {
         var activity: Activity? = (context as Activity).parent
         if (activity == null) {
@@ -52,10 +67,6 @@ class MusicPlayerRemote {
         if (connectionMap.isEmpty()) {
             musicService = null
         }
-    }
-
-    fun openQueue(queue: List<Tracks>, startPosition: Int, startPlaying: Boolean) {
-        musicService?.openQueue(queue, startPosition, startPlaying)
     }
 
     inner class ServiceBinder internal constructor(private val mCallback: ServiceConnection?) :
