@@ -10,7 +10,7 @@ object Versions {
     const val retrofit = "2.9.0"
     const val KSP = "1.7.21-1.0.8"
     const val constraintCompose = "1.0.1"
-    const val composeUiVersion = "1.2.1"
+    const val composeUiVersion = "1.4.0-alpha02"
     const val composeCompiler = "1.3.2"
     const val composeFoundation = "1.2.1"
     const val composeMaterial = "1.2.1"
