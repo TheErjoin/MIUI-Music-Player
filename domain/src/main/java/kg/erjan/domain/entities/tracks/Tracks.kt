@@ -13,4 +13,21 @@ class Tracks(
     val artistId: Int,
     val artistName: String,
     val composer: String?
-)
+){
+    companion object {
+        val emptySong = Tracks(
+            -1,
+            "",
+            -1,
+            -1,
+            -1,
+            "",
+            -1,
+            -1,
+            "",
+            -1,
+            "",
+            ""
+        )
+    }
+}

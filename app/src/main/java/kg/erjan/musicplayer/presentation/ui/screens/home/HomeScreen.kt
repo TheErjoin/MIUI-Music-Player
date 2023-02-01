@@ -23,8 +23,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavHostController
 import com.google.accompanist.pager.*
 import com.google.accompanist.permissions.*
 import kg.erjan.musicplayer.R
@@ -36,28 +34,27 @@ import kg.erjan.musicplayer.presentation.ui.screens.home.packages.PackagesScreen
 import kg.erjan.musicplayer.presentation.ui.screens.home.performers.PerformersScreen
 import kg.erjan.musicplayer.presentation.ui.screens.home.tracks.TracksScreen
 import kg.erjan.musicplayer.presentation.ui.theme.*
+import kg.erjan.musicplayer.presentation.ui.utils.Auxiliary
 import kotlinx.coroutines.launch
 
 @Composable
 fun MusicListScreen(
-    navController: NavHostController,
-    viewModel: HomeViewModel = hiltViewModel()
+    auxiliary: Auxiliary,
 ) {
     Box {
         HomeComponents(
-            navController = navController,
+            auxiliary = auxiliary,
         )
         MiniPlayer(
             modifier = Modifier.align(Alignment.BottomCenter),
-            navController = navController,
-            player = viewModel.musicPlayerRemote
+            auxiliary = auxiliary,
         )
     }
 }
 
 @OptIn(ExperimentalPermissionsApi::class)
 @Composable
-fun HomeComponents(navController: NavHostController) {
+fun HomeComponents(auxiliary: Auxiliary) {
 
     val musicPermissionState = rememberPermissionState(
         android.Manifest.permission.READ_EXTERNAL_STORAGE
@@ -84,7 +81,7 @@ fun HomeComponents(navController: NavHostController) {
         )
         when (musicPermissionState.status) {
             PermissionStatus.Granted -> {
-                MusicTabs(navController)
+                MusicTabs(auxiliary)
             }
             is PermissionStatus.Denied -> {
                 GrandPermission()
@@ -135,7 +132,7 @@ private fun GrandPermission() {
 
 @OptIn(ExperimentalPagerApi::class)
 @Composable
-private fun MusicTabs(navController: NavHostController) {
+private fun MusicTabs(auxiliary: Auxiliary) {
     val pagerState = rememberPagerState(initialPage = 0)
 
     val tabData = listOf(
@@ -146,8 +143,8 @@ private fun MusicTabs(navController: NavHostController) {
     )
 
     Column {
-        Tabs(pagerState = pagerState,tabData = tabData)
-        MusicTabsScreen(pagerState = pagerState,tabData = tabData,navController = navController)
+        Tabs(pagerState = pagerState, tabData = tabData)
+        MusicTabsScreen(pagerState = pagerState, tabData = tabData, auxiliary = auxiliary)
     }
 }
 
@@ -156,7 +153,7 @@ private fun MusicTabs(navController: NavHostController) {
 private fun MusicTabsScreen(
     pagerState: PagerState,
     tabData: List<String>,
-    navController: NavHostController
+    auxiliary: Auxiliary
 ) {
     HorizontalPager(
         count = tabData.size,
@@ -166,7 +163,7 @@ private fun MusicTabsScreen(
             modifier = Modifier.fillMaxSize(),
         ) {
             when (page) {
-                0 -> TracksScreen(navController = navController)
+                0 -> TracksScreen(navController = auxiliary.navController)
                 1 -> PerformersScreen()
                 2 -> AlbumsScreen()
                 else -> PackagesScreen()

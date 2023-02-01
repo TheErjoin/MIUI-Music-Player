@@ -31,21 +31,4 @@ class TracksDto(
         artistName,
         composer
     )
-    companion object {
-        @JvmStatic
-        val emptySong = TracksDto(
-            -1,
-            "",
-            -1,
-            -1,
-            -1,
-            "",
-            -1,
-            -1,
-            "",
-            -1,
-            "",
-            ""
-        )
-    }
 }

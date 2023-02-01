@@ -62,7 +62,7 @@ class MainActivity : ComponentActivity() {
                         .fillMaxSize()
                         .background(MainBackgroundColor),
                 ) {
-                    MainGraphNavigation()
+                    MainGraphNavigation(viewModel.playerRemote,this@MainActivity)
                 }
             }
         }

@@ -9,7 +9,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.IconButton
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -21,23 +20,21 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavHostController
-import kg.erjan.data.remote.service.music.MusicPlayerRemote
 import kg.erjan.domain.entities.tracks.Tracks
 import kg.erjan.musicplayer.R
-import kg.erjan.musicplayer.presentation.extensions.navigateSafely
+import kg.erjan.musicplayer.presentation.extensions.navigate
 import kg.erjan.musicplayer.presentation.ui.navigation.Screen
 import kg.erjan.musicplayer.presentation.ui.theme.EerieBlack
 import kg.erjan.musicplayer.presentation.ui.theme.SpanishGray
+import kg.erjan.musicplayer.presentation.ui.utils.Auxiliary
 
 @Composable
 fun MiniPlayer(
     modifier: Modifier,
-    navController: NavHostController,
-    player: MusicPlayerRemote
+    auxiliary: Auxiliary
 ) {
-    val currentSong by remember {
-        mutableStateOf(player.currentSong)
+    val currentSong = remember {
+        mutableStateOf(auxiliary.musicPlayerRemote.currentSong)
     }
 
     AnimatedVisibility(
@@ -56,7 +53,7 @@ fun MiniPlayer(
                     EerieBlack
                 )
                 .clickable {
-                    navController.navigateSafely(Screen.TRACK_SCREEN.route)
+                    auxiliary.navController.navigate(Screen.TRACK_SCREEN)
                 }
         ) {
             Row(
@@ -67,9 +64,9 @@ fun MiniPlayer(
                     .wrapContentHeight(),
             ) {
                 Box(modifier = Modifier.weight(1F)) {
-                    currentSong?.let { MiniPlayerContent(tracks = it) }
+                    MiniPlayerContent(tracks = currentSong.value)
                 }
-                IconButton(onClick = { /*TODO onClick play*/ }) {
+                IconButton(onClick = {  /*TODO onClick play*/ }) {
                     Image(
                         painter = painterResource(id = R.drawable.ic_play),
                         contentDescription = null
