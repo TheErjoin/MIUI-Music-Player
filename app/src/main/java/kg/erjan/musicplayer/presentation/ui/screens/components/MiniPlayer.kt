@@ -72,7 +72,7 @@ fun MiniPlayer(
                     MiniPlayerContent(tracks = currentSong)
                 }
                 IconButton(onClick = {
-                    if (isPlaying){
+                    if (!isPlaying){
                         auxiliary.musicPlayerRemote.resumePlaying()
                     }else{
                         auxiliary.musicPlayerRemote.pauseSong()
