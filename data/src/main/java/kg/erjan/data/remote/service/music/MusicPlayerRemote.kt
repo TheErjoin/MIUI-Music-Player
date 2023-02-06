@@ -13,16 +13,16 @@ class MusicPlayerRemote {
     var musicService: MusicService? = null
 
     val currentSong: Tracks
-        get() = if (musicService != null) musicService!!.getCurrentSong() else Tracks.emptySong
+        get() = if (musicService != null) musicService!!.currentSong else Tracks.emptySong
 
-    val isPlaying : Boolean
-        get() = musicService != null && musicService!!.isPlaying()
+    val isPlaying: Boolean
+        get() = musicService != null && musicService!!.isPlaying
 
-    fun pauseSong(){
+    fun pauseSong() {
         musicService?.pause()
     }
 
-    fun resumePlaying(){
+    fun resumePlaying() {
         musicService?.play()
     }
 
