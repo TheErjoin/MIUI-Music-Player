@@ -4,8 +4,6 @@ import android.app.Service
 import android.content.Intent
 import android.os.Binder
 import android.os.IBinder
-import android.util.Log
-import kg.erjan.data.remote.service.music.mock.MusicPlayer
 import kg.erjan.data.remote.service.music.playback.PlaybackService
 import kg.erjan.data.utils.MusicUtil
 import kg.erjan.domain.entities.tracks.Tracks
@@ -52,12 +50,13 @@ class MusicService : Service() {
         }
     }
 
+    fun playNextSong() {
+        playSongAt(position + 1)
+    }
+
     fun playSongAt(position: Int) {
-        Log.e("isPlaying", "playSongAtImpl: ${isPlaying}")
         if (openTrackAndPrepareNextAt(position)) {
             play()
-        } else {
-            Log.e("dontWorked", "playSongAtImpl: ")
         }
     }
 

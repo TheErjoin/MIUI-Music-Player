@@ -1,4 +1,4 @@
-package kg.erjan.data.remote.service.music.mock
+package kg.erjan.data.remote.service.music
 
 import android.content.Context
 import android.media.MediaPlayer
