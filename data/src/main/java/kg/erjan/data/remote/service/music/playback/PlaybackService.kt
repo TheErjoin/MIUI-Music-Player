@@ -4,7 +4,7 @@ interface PlaybackService {
 
     fun isInitialized(): Boolean
 
-    fun isPlaying(): Boolean
+    val isPlaying: Boolean
 
     val audioSessionId: Int
 

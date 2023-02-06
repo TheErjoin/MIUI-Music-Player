@@ -4,11 +4,9 @@ import android.app.Service
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Binder
-import android.os.HandlerThread
 import android.os.IBinder
 import android.util.Log
 import kg.erjan.data.remote.service.music.mock.MusicServiceImpl
-import kg.erjan.data.remote.service.music.playback.PlaybackHandler
 import kg.erjan.data.remote.service.music.playback.PlaybackService
 import kg.erjan.data.utils.MusicUtil
 import kg.erjan.domain.entities.tracks.Tracks
@@ -20,15 +18,11 @@ class MusicService : Service(), PlaybackService.PlaybackCallbacks,
     private var playbackService: PlaybackService = MusicServiceImpl(this)
     private val musicBind: IBinder = MusicBinder(this)
     private var position = -1
-    private var playerHandler: PlaybackHandler? = null
-    private var musicPlayerHandlerThread: HandlerThread = HandlerThread("PlaybackHandler")
     private var originalPlayerQueue = mutableListOf<Tracks>()
     private var playingQueue: ArrayList<Tracks> = ArrayList<Tracks>()
 
     override fun onCreate() {
         super.onCreate()
-        musicPlayerHandlerThread.start()
-        playerHandler = PlaybackHandler(this, musicPlayerHandlerThread.looper)
         playbackService.setCallbacks(this)
     }
 
@@ -53,14 +47,14 @@ class MusicService : Service(), PlaybackService.PlaybackCallbacks,
 
     fun getCurrentSong(): Tracks = getSongAt(position)
 
-    fun isPlaying(): Boolean = playbackService.isPlaying()
+    fun isPlaying(): Boolean = playbackService.isPlaying
 
     override fun onBind(p0: Intent?): IBinder {
         return musicBind
     }
 
     fun play() {
-        if (!playbackService.isPlaying()) {
+        if (!playbackService.isPlaying) {
             if (!playbackService.isInitialized()) {
                 playSongAt(position)
             } else {
@@ -69,8 +63,8 @@ class MusicService : Service(), PlaybackService.PlaybackCallbacks,
         }
     }
 
-    fun playSongAtImpl(position: Int) {
-        Log.e("isPlaying", "playSongAtImpl: ${isPlaying()}", )
+    fun playSongAt(position: Int) {
+        Log.e("isPlaying", "playSongAtImpl: ${isPlaying()}")
         if (openTrackAndPrepareNextAt(position)) {
             play()
         } else {
@@ -78,15 +72,10 @@ class MusicService : Service(), PlaybackService.PlaybackCallbacks,
         }
     }
 
-    fun pause(){
-        if (playbackService.isPlaying()){
+    fun pause() {
+        if (playbackService.isPlaying) {
             playbackService.pause()
         }
-    }
-
-    private fun playSongAt(position: Int) {
-        playerHandler!!.removeMessages(PLAY_SONG)
-        playerHandler!!.obtainMessage(PLAY_SONG, position, 0).sendToTarget()
     }
 
     private fun openTrackAndPrepareNextAt(position: Int): Boolean {
@@ -127,8 +116,4 @@ class MusicService : Service(), PlaybackService.PlaybackCallbacks,
     }
 
     class MusicBinder(val service: MusicService) : Binder()
-
-    companion object {
-        const val PLAY_SONG = 3
-    }
 }

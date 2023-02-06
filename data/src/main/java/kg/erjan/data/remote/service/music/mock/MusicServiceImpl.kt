@@ -11,7 +11,7 @@ import kg.erjan.data.remote.service.music.playback.PlaybackService
 
 class MusicServiceImpl(
     val context: Context
-) : PlaybackService, MediaPlayer.OnErrorListener, MediaPlayer.OnCompletionListener {
+) : PlaybackService {
 
     private var mediaPlayer: MediaPlayer = MediaPlayer()
 
@@ -19,7 +19,8 @@ class MusicServiceImpl(
 
     override fun isInitialized(): Boolean = mIsInitialized
 
-    override fun isPlaying(): Boolean = mIsInitialized && mediaPlayer.isPlaying
+    override val isPlaying: Boolean
+        get() = mediaPlayer.isPlaying && mIsInitialized
 
     override val audioSessionId: Int = mediaPlayer.audioSessionId
 
@@ -52,8 +53,6 @@ class MusicServiceImpl(
         } catch (e: Exception) {
             return false
         }
-        player.setOnCompletionListener(this)
-        player.setOnErrorListener(this)
         val intent = Intent(AudioEffect.ACTION_OPEN_AUDIO_EFFECT_CONTROL_SESSION)
         intent.putExtra(AudioEffect.EXTRA_AUDIO_SESSION, audioSessionId)
         intent.putExtra(AudioEffect.EXTRA_PACKAGE_NAME, context.packageName)
@@ -118,27 +117,6 @@ class MusicServiceImpl(
                 mNextMediaPlayer!!.release()
                 mNextMediaPlayer = null
             }
-        }
-    }
-
-    override fun onError(p0: MediaPlayer?, p1: Int, p2: Int): Boolean {
-        mIsInitialized = false
-        mediaPlayer.release()
-        mediaPlayer = MediaPlayer()
-        mediaPlayer.setWakeMode(context, PowerManager.PARTIAL_WAKE_LOCK)
-        return false
-    }
-
-    override fun onCompletion(p0: MediaPlayer?) {
-        if (p0 === mediaPlayer && mNextMediaPlayer != null) {
-            mIsInitialized = false
-            mediaPlayer.release()
-            mediaPlayer = mNextMediaPlayer as MediaPlayer
-            mIsInitialized = true
-            mNextMediaPlayer = null
-            if (callbacks != null) callbacks!!.onTrackWentToNext()
-        } else {
-            if (callbacks != null) callbacks!!.onTrackEnded()
         }
     }
 }
