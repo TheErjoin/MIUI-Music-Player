@@ -84,7 +84,9 @@ fun MiniPlayer(
                     )
                 }
                 Spacer(modifier = Modifier.width(8.dp))
-                IconButton(onClick = { /*TODO onClick skip next*/ }) {
+                IconButton(onClick = {
+                    auxiliary.musicPlayerRemote.playNextSong()
+                }) {
                     Image(
                         painter = painterResource(id = R.drawable.ic_skip_next),
                         contentDescription = null
