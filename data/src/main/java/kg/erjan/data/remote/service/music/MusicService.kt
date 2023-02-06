@@ -19,10 +19,6 @@ class MusicService : Service() {
     private var originalPlayerQueue = mutableListOf<Tracks>()
     private var playingQueue: ArrayList<Tracks> = ArrayList<Tracks>()
 
-    override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        return START_NOT_STICKY
-    }
-
     val isPlaying: Boolean get() = playbackService.isPlaying
 
     val currentSong: Tracks get() = getSongAt(position)
@@ -97,6 +93,10 @@ class MusicService : Service() {
 
     private fun getTrackUri(tracks: Tracks): String {
         return MusicUtil().getSongFileUri(tracks.id).toString()
+    }
+
+    override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+        return START_NOT_STICKY
     }
 
     class MusicBinder(val service: MusicService) : Binder()
