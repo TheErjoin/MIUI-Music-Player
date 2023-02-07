@@ -21,6 +21,9 @@ class MusicService : Service() {
 
     val currentSong: Tracks get() = getSongAt(position)
 
+    val currentPlaybackState: PlaybackState?
+        get() = playbackService.currentPlaybackState
+
     private fun getSongAt(position: Int): Tracks {
         return playingQueue[position]
     }

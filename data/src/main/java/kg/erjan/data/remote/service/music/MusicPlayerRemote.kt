@@ -18,6 +18,9 @@ class MusicPlayerRemote {
     val isPlaying: Boolean
         get() = musicService != null && musicService!!.isPlaying
 
+    val currentPlaybackState: PlaybackState?
+        get() = if (musicService != null) musicService!!.currentPlaybackState else null
+
     fun playNextSong() {
         musicService?.playNextSong()
     }

@@ -46,7 +46,7 @@ fun PlayerScreen(auxiliary: Auxiliary) {
         Spacer(modifier = Modifier.height(42.dp))
         MusicInfo()
         Spacer(modifier = Modifier.height(62.dp))
-        MusicSlider()
+        MusicSlider(auxiliary = auxiliary)
         Spacer(modifier = Modifier.height(42.dp))
         PlaybackMusic()
     }
@@ -177,7 +177,7 @@ private fun ImageMusic() {
 }
 
 @Composable
-private fun MusicSlider() {
+private fun MusicSlider(auxiliary: Auxiliary) {
     var sliderPosition by remember { mutableStateOf(0f) }
     Column(
         modifier = Modifier.padding(horizontal = 16.dp)

@@ -11,6 +11,14 @@ class MusicPlayer(
 
     private var mIsInitialized = false
 
+    override val currentPlaybackState: PlaybackState?
+        get() = mediaPlayer?.let {
+            PlaybackState(
+                played = it.currentPosition,
+                total = it.currentPosition
+            )
+        }
+
     private val unsafeMediaPlayer: MediaPlayer = MediaPlayer().apply {
         setOnPreparedListener {
             mIsInitialized = true
@@ -79,5 +87,17 @@ class MusicPlayer(
     }
 
     override fun setNextDataSource(path: String?) {
+    }
+}
+
+data class PlaybackState(
+    val played: Int,
+    val total: Int,
+) {
+    val ratio: Float
+        get() = (played.toFloat() / total).takeIf { it.isFinite() } ?: 0f
+
+    companion object {
+        val zero = PlaybackState(0, 0)
     }
 }
