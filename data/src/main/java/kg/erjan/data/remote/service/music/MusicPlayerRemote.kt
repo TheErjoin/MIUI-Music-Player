@@ -25,6 +25,10 @@ class MusicPlayerRemote {
         musicService?.playNextSong()
     }
 
+    fun playPreviousSong() {
+        musicService?.playPreviousSong()
+    }
+
     fun pauseSong() {
         musicService?.pause()
     }

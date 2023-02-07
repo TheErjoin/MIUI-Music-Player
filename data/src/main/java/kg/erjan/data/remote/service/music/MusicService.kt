@@ -57,6 +57,10 @@ class MusicService : Service() {
         playSongAt(position + 1)
     }
 
+    fun playPreviousSong(){
+        playSongAt(position - 1)
+    }
+
     fun playSongAt(position: Int) {
         if (openTrackAndPrepareNextAt(position)) {
             play()
