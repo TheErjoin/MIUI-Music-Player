@@ -20,9 +20,11 @@ import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.PagerState
 import com.google.accompanist.pager.rememberPagerState
+import kg.erjan.data.remote.service.music.PlaybackState
 import kg.erjan.musicplayer.R
 import kg.erjan.musicplayer.presentation.ui.theme.*
 import kg.erjan.musicplayer.presentation.ui.utils.Auxiliary
+import kg.erjan.musicplayer.presentation.ui.utils.DurationAdapter
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalPagerApi::class)
@@ -178,13 +180,20 @@ private fun ImageMusic() {
 
 @Composable
 private fun MusicSlider(auxiliary: Auxiliary) {
-    var sliderPosition by remember { mutableStateOf(0f) }
+    var sliderPosition by remember { mutableStateOf<Int?>(null) }
+    /*TODO dont use class from data,after working changed PlaybackState.zero*/
+    val duration by remember {
+        mutableStateOf(
+            auxiliary.musicPlayerRemote.currentPlaybackState ?: PlaybackState.zero
+        )
+    }
     Column(
         modifier = Modifier.padding(horizontal = 16.dp)
     ) {
         Slider(
-            value = sliderPosition,
-            onValueChange = { sliderPosition = it },
+            value = (sliderPosition ?: duration.played).toFloat(),
+            valueRange = 0f..duration.total.toFloat(),
+            onValueChange = { sliderPosition = it.toInt() },
             colors = SliderDefaults.colors(
                 thumbColor = AfricanViolet,
                 activeTrackColor = Snow
@@ -195,13 +204,13 @@ private fun MusicSlider(auxiliary: Auxiliary) {
         Spacer(modifier = Modifier.height(8.dp))
         Box(modifier = Modifier.fillMaxWidth()) {
             Text(
-                text = "0:27",
+                text = DurationAdapter.formatAsMS(sliderPosition ?: duration.played),
                 fontSize = 12.sp,
                 color = TropicalViolet,
                 modifier = Modifier.align(Alignment.TopStart)
             )
             Text(
-                text = "03:30",
+                text = DurationAdapter.formatAsMS(duration.total),
                 fontSize = 12.sp,
                 color = TropicalViolet,
                 modifier = Modifier.align(Alignment.TopEnd)

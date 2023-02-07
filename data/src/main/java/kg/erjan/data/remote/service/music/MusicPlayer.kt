@@ -15,7 +15,7 @@ class MusicPlayer(
         get() = mediaPlayer?.let {
             PlaybackState(
                 played = it.currentPosition,
-                total = it.currentPosition
+                total = it.duration
             )
         }
 
