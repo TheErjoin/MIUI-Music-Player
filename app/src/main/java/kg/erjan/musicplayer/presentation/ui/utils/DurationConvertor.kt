@@ -2,7 +2,7 @@ package kg.erjan.musicplayer.presentation.ui.utils
 
 import java.util.concurrent.TimeUnit
 
-object DurationAdapter {
+object DurationConvertor {
 
     fun formatAsMS(ms: Int) = formatAsMS(ms.toLong())
 

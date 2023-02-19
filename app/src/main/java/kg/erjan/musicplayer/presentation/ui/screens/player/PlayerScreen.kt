@@ -24,7 +24,7 @@ import kg.erjan.data.remote.service.music.PlaybackState
 import kg.erjan.musicplayer.R
 import kg.erjan.musicplayer.presentation.ui.theme.*
 import kg.erjan.musicplayer.presentation.ui.utils.Auxiliary
-import kg.erjan.musicplayer.presentation.ui.utils.DurationAdapter
+import kg.erjan.musicplayer.presentation.ui.utils.DurationConvertor
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalPagerApi::class)
@@ -220,13 +220,13 @@ private fun MusicSlider(auxiliary: Auxiliary) {
         Spacer(modifier = Modifier.height(8.dp))
         Box(modifier = Modifier.fillMaxWidth()) {
             Text(
-                text = DurationAdapter.formatAsMS(sliderPosition ?: duration.played),
+                text = DurationConvertor.formatAsMS(sliderPosition ?: duration.played),
                 fontSize = 12.sp,
                 color = TropicalViolet,
                 modifier = Modifier.align(Alignment.TopStart)
             )
             Text(
-                text = DurationAdapter.formatAsMS(duration.total),
+                text = DurationConvertor.formatAsMS(duration.total),
                 fontSize = 12.sp,
                 color = TropicalViolet,
                 modifier = Modifier.align(Alignment.TopEnd)
