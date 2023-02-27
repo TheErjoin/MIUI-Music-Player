@@ -20,9 +20,11 @@ import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.PagerState
 import com.google.accompanist.pager.rememberPagerState
+import kg.erjan.data.remote.service.music.PlaybackState
 import kg.erjan.musicplayer.R
 import kg.erjan.musicplayer.presentation.ui.theme.*
 import kg.erjan.musicplayer.presentation.ui.utils.Auxiliary
+import kg.erjan.musicplayer.presentation.ui.utils.DurationConvertor
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalPagerApi::class)
@@ -44,16 +46,20 @@ fun PlayerScreen(auxiliary: Auxiliary) {
         Spacer(modifier = Modifier.height(22.dp))
         LogoAndLyricsMusic(pagerState, tabData)
         Spacer(modifier = Modifier.height(42.dp))
-        MusicInfo()
+        MusicInfo(auxiliary = auxiliary)
         Spacer(modifier = Modifier.height(62.dp))
-        MusicSlider()
+        MusicSlider(auxiliary = auxiliary)
         Spacer(modifier = Modifier.height(42.dp))
-        PlaybackMusic()
+        PlaybackMusic(auxiliary = auxiliary)
     }
 }
 
 @Composable
-private fun PlaybackMusic() {
+private fun PlaybackMusic(auxiliary: Auxiliary) {
+
+    val isPlaying by remember {
+        mutableStateOf(auxiliary.musicPlayerRemote.isPlaying)
+    }
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -76,16 +82,26 @@ private fun PlaybackMusic() {
             modifier = Modifier.clickable(
                 interactionSource = MutableInteractionSource(),
                 indication = rememberRipple(bounded = false)
-            ) { /*TODO on Click back to previous music*/ }
+            ) {
+                auxiliary.musicPlayerRemote.playPreviousSong()
+            }
         )
         Spacer(modifier = Modifier.width(8.dp))
         FloatingActionButton(
-            onClick = { /*TODO on Click play or stop music*/ },
+            onClick = {
+                if (!isPlaying)
+                    auxiliary.musicPlayerRemote.resumePlaying()
+                else
+                    auxiliary.musicPlayerRemote.pauseSong()
+            },
             backgroundColor = AfricanViolet,
             modifier = Modifier.size(64.dp)
         ) {
             Image(
-                painter = painterResource(id = R.drawable.ic_play),
+                painter = if (!isPlaying)
+                    painterResource(id = R.drawable.ic_play)
+                else
+                    painterResource(id = R.drawable.ic_pause),
                 contentDescription = null,
                 modifier = Modifier.size(32.dp)
             )
@@ -97,7 +113,9 @@ private fun PlaybackMusic() {
             modifier = Modifier.clickable(
                 interactionSource = MutableInteractionSource(),
                 indication = rememberRipple(bounded = false)
-            ) { /*TODO on Click back to next music*/ }
+            ) {
+                auxiliary.musicPlayerRemote.playNextSong()
+            }
         )
         Spacer(modifier = Modifier.width(8.dp))
         Image(
@@ -177,14 +195,21 @@ private fun ImageMusic() {
 }
 
 @Composable
-private fun MusicSlider() {
-    var sliderPosition by remember { mutableStateOf(0f) }
+private fun MusicSlider(auxiliary: Auxiliary) {
+    var sliderPosition by remember { mutableStateOf<Int?>(null) }
+    /*TODO dont use class from data,after working changed PlaybackState.zero*/
+    val duration by remember {
+        mutableStateOf(
+            auxiliary.musicPlayerRemote.currentPlaybackState ?: PlaybackState.zero
+        )
+    }
     Column(
         modifier = Modifier.padding(horizontal = 16.dp)
     ) {
         Slider(
-            value = sliderPosition,
-            onValueChange = { sliderPosition = it },
+            value = (sliderPosition ?: duration.played).toFloat(),
+            valueRange = 0f..duration.total.toFloat(),
+            onValueChange = { sliderPosition = it.toInt() },
             colors = SliderDefaults.colors(
                 thumbColor = AfricanViolet,
                 activeTrackColor = Snow
@@ -195,13 +220,13 @@ private fun MusicSlider() {
         Spacer(modifier = Modifier.height(8.dp))
         Box(modifier = Modifier.fillMaxWidth()) {
             Text(
-                text = "0:27",
+                text = DurationConvertor.formatAsMS(sliderPosition ?: duration.played),
                 fontSize = 12.sp,
                 color = TropicalViolet,
                 modifier = Modifier.align(Alignment.TopStart)
             )
             Text(
-                text = "03:30",
+                text = DurationConvertor.formatAsMS(duration.total),
                 fontSize = 12.sp,
                 color = TropicalViolet,
                 modifier = Modifier.align(Alignment.TopEnd)
@@ -211,8 +236,11 @@ private fun MusicSlider() {
 }
 
 @Composable
-private fun MusicInfo() {
+private fun MusicInfo(auxiliary: Auxiliary) {
     val isFavorite = remember { mutableStateOf(false) }
+    val currentSong by remember {
+        mutableStateOf(auxiliary.musicPlayerRemote.currentSong)
+    }
     Box(
         modifier = Modifier
             .fillMaxWidth()
@@ -222,15 +250,13 @@ private fun MusicInfo() {
             modifier = Modifier.align(Alignment.CenterStart)
         ) {
             Text(
-                //TODO delete this
-                text = "The Gong of Knockout",
+                text = currentSong.title,
                 fontSize = 21.sp,
                 color = Color.White
             )
             Spacer(modifier = Modifier.height(6.dp))
             Text(
-                //TODO delete this
-                text = "Fear,and Loathing in Las Vegas",
+                text = currentSong.artistName,
                 fontSize = 14.sp,
                 color = TropicalViolet
             )
