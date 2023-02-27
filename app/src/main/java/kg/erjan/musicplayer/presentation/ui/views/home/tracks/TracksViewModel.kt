@@ -1,4 +1,4 @@
-package kg.erjan.musicplayer.presentation.ui.screens.home.tracks
+package kg.erjan.musicplayer.presentation.ui.views.home.tracks
 
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kg.erjan.data.remote.service.music.MusicPlayerRemote

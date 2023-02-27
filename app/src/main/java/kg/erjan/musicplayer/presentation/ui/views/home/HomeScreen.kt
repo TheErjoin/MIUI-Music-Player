@@ -1,4 +1,4 @@
-package kg.erjan.musicplayer.presentation.ui.screens.home
+package kg.erjan.musicplayer.presentation.ui.views.home
 
 import android.content.Intent
 import android.net.Uri
@@ -27,14 +27,14 @@ import com.google.accompanist.pager.*
 import com.google.accompanist.permissions.*
 import kg.erjan.musicplayer.R
 import kg.erjan.musicplayer.presentation.App
-import kg.erjan.musicplayer.presentation.ui.screens.components.MiniPlayer
-import kg.erjan.musicplayer.presentation.ui.screens.components.MusicCard
-import kg.erjan.musicplayer.presentation.ui.screens.home.albums.AlbumsScreen
-import kg.erjan.musicplayer.presentation.ui.screens.home.packages.PackagesScreen
-import kg.erjan.musicplayer.presentation.ui.screens.home.performers.PerformersScreen
-import kg.erjan.musicplayer.presentation.ui.screens.home.tracks.TracksScreen
+import kg.erjan.musicplayer.presentation.ui.components.MiniPlayer
+import kg.erjan.musicplayer.presentation.ui.components.MusicCard
+import kg.erjan.musicplayer.presentation.ui.views.home.albums.AlbumsScreen
+import kg.erjan.musicplayer.presentation.ui.views.home.packages.PackagesScreen
+import kg.erjan.musicplayer.presentation.ui.views.home.performers.PerformersScreen
+import kg.erjan.musicplayer.presentation.ui.views.home.tracks.TracksScreen
 import kg.erjan.musicplayer.presentation.ui.theme.*
-import kg.erjan.musicplayer.presentation.ui.utils.Auxiliary
+import kg.erjan.musicplayer.presentation.ui.helpers.Auxiliary
 import kotlinx.coroutines.launch
 
 @Composable

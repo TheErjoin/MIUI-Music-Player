@@ -1,4 +1,4 @@
-package kg.erjan.musicplayer.presentation.ui.utils
+package kg.erjan.musicplayer.presentation.ui.helpers
 
 import androidx.navigation.NavHostController
 import kg.erjan.data.remote.service.music.MusicPlayerRemote

@@ -1,4 +1,4 @@
-package kg.erjan.musicplayer.presentation.ui.screens.player
+package kg.erjan.musicplayer.presentation.ui.views.player
 
 import androidx.compose.foundation.*
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -23,8 +23,8 @@ import com.google.accompanist.pager.rememberPagerState
 import kg.erjan.data.remote.service.music.PlaybackState
 import kg.erjan.musicplayer.R
 import kg.erjan.musicplayer.presentation.ui.theme.*
-import kg.erjan.musicplayer.presentation.ui.utils.Auxiliary
-import kg.erjan.musicplayer.presentation.ui.utils.DurationConvertor
+import kg.erjan.musicplayer.presentation.ui.helpers.Auxiliary
+import kg.erjan.musicplayer.presentation.ui.helpers.DurationConvertor
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalPagerApi::class)

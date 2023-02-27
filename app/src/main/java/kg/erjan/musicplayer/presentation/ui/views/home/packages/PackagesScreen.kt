@@ -1,4 +1,4 @@
-package kg.erjan.musicplayer.presentation.ui.screens.home.packages
+package kg.erjan.musicplayer.presentation.ui.views.home.packages
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column

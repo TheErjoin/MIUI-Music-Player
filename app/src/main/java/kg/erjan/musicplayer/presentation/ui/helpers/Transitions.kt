@@ -1,4 +1,4 @@
-package kg.erjan.musicplayer.presentation.ui.utils
+package kg.erjan.musicplayer.presentation.ui.helpers
 
 import androidx.compose.animation.core.Easing
 import androidx.compose.animation.core.FastOutSlowInEasing
