@@ -1,4 +1,4 @@
-package kg.erjan.musicplayer.presentation.ui.screens.home.tracks
+package kg.erjan.musicplayer.presentation.ui.views.home.tracks
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -26,7 +26,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
-import kg.erjan.data.utils.MusicUtil
 import kg.erjan.domain.entities.tracks.Tracks
 import kg.erjan.musicplayer.R
 import kg.erjan.musicplayer.presentation.extensions.collectUIState

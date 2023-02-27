@@ -1,12 +1,12 @@
-package kg.erjan.data.remote.service.music
+package kg.erjan.musicplayer.services.music
 
 import android.app.Service
 import android.content.Intent
 import android.os.Binder
 import android.os.IBinder
-import kg.erjan.data.remote.service.music.playback.PlaybackService
-import kg.erjan.data.utils.MusicUtil
 import kg.erjan.domain.entities.tracks.Tracks
+import kg.erjan.musicplayer.services.music.playback.PlaybackService
+import kg.erjan.musicplayer.utils.MusicUtil
 import java.util.*
 
 class MusicService : Service() {

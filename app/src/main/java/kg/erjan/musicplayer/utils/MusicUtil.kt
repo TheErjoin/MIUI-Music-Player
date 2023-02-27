@@ -1,4 +1,4 @@
-package kg.erjan.data.utils
+package kg.erjan.musicplayer.utils
 
 import android.content.ContentUris
 import android.net.Uri

@@ -1,4 +1,4 @@
-package kg.erjan.musicplayer.presentation.ui.navigation
+package kg.erjan.musicplayer.presentation.ui.helpers
 
 enum class Screen(
     val route: String

@@ -1,4 +1,4 @@
-package kg.erjan.musicplayer.presentation.ui.screens.components
+package kg.erjan.musicplayer.presentation.ui.components
 
 import androidx.compose.animation.*
 import androidx.compose.foundation.Image
@@ -24,10 +24,10 @@ import androidx.compose.ui.unit.sp
 import kg.erjan.domain.entities.tracks.Tracks
 import kg.erjan.musicplayer.R
 import kg.erjan.musicplayer.presentation.extensions.navigate
-import kg.erjan.musicplayer.presentation.ui.navigation.Screen
+import kg.erjan.musicplayer.presentation.ui.helpers.Auxiliary
+import kg.erjan.musicplayer.presentation.ui.helpers.Screen
 import kg.erjan.musicplayer.presentation.ui.theme.EerieBlack
 import kg.erjan.musicplayer.presentation.ui.theme.SpanishGray
-import kg.erjan.musicplayer.presentation.ui.utils.Auxiliary
 
 @Composable
 fun MiniPlayer(

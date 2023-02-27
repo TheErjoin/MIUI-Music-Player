@@ -1,4 +1,4 @@
-package kg.erjan.musicplayer.presentation.ui.utils
+package kg.erjan.musicplayer.presentation.ui.helpers
 
 import java.util.concurrent.TimeUnit
 

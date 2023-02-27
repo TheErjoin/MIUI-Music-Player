@@ -1,4 +1,4 @@
-package kg.erjan.data.remote.service.music
+package kg.erjan.musicplayer.services.music
 
 import android.app.Activity
 import android.content.*
