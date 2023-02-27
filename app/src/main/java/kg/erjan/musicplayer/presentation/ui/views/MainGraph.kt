@@ -5,7 +5,7 @@ import androidx.compose.runtime.Composable
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.composable
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
-import kg.erjan.data.remote.service.music.MusicPlayerRemote
+import kg.erjan.musicplayer.services.music.MusicPlayerRemote
 import kg.erjan.musicplayer.presentation.ui.activity.MainActivity
 import kg.erjan.musicplayer.presentation.ui.views.home.MusicListScreen
 import kg.erjan.musicplayer.presentation.ui.views.player.PlayerScreen

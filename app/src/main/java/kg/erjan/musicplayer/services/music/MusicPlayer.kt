@@ -1,9 +1,9 @@
-package kg.erjan.data.remote.service.music
+package kg.erjan.musicplayer.services.music
 
 import android.content.Context
 import android.media.MediaPlayer
 import android.net.Uri
-import kg.erjan.data.remote.service.music.playback.PlaybackService
+import kg.erjan.musicplayer.services.music.playback.PlaybackService
 
 class MusicPlayer(
     val context: Context

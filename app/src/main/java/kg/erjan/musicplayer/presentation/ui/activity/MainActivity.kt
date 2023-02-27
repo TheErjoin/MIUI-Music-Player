@@ -14,7 +14,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.ui.Modifier
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import dagger.hilt.android.AndroidEntryPoint
-import kg.erjan.data.remote.service.music.MusicPlayerRemote
+import kg.erjan.musicplayer.services.music.MusicPlayerRemote
 import kg.erjan.musicplayer.presentation.ui.navigation.MainGraphNavigation
 import kg.erjan.musicplayer.presentation.ui.theme.MainBackgroundColor
 import kg.erjan.musicplayer.presentation.ui.theme.MusicPlayerTheme

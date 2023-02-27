@@ -1,6 +1,6 @@
-package kg.erjan.data.remote.service.music.playback
+package kg.erjan.musicplayer.services.music.playback
 
-import kg.erjan.data.remote.service.music.PlaybackState
+import kg.erjan.musicplayer.services.music.PlaybackState
 
 interface PlaybackService {
 
