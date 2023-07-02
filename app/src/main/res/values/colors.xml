@@ -8,4 +8,11 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="CharlestonGreen">#272727</color>
+    <color name="SunsetOrange">#F05960</color>
+    <color name="CarminePink">#F24A41</color>
+
+
+    <!--region Themes-->
+    <color name="ic_launcher_background">@color/SunsetOrange</color>
+    <!--endregion-->
 </resources>

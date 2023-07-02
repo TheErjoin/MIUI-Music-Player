@@ -51,11 +51,16 @@ android {
 
 dependencies {
 
+    //Module
+    implementation(project(":data"))
+    implementation(project(":domain"))
+
     // Kotlin
     implementation(Libraries.Coroutines.android)
 
     // Core
     implementation(Libraries.Core.core)
+    implementation(Libraries.Core.splashScreen)
 
     // Lifecycle
     implementation(Libraries.Lifecycle.viewModel)
@@ -72,27 +77,14 @@ dependencies {
     implementation(Libraries.Compose.composeUi)
     implementation(Libraries.Compose.composeUiToolingPreview)
     implementation(Libraries.Compose.composeMaterial)
-    implementation(Libraries.Compose.navigation)
+    implementation(Libraries.Compose.navigationCompose)
     implementation(Libraries.Compose.accompanistPager)
     implementation(Libraries.Compose.accompanistPagerIndicators)
-
-    // Retrofit
-    implementation(Libraries.Retrofit.retrofit)
-    implementation(Libraries.Retrofit.converterGson)
+    implementation(Libraries.Compose.hiltNavigation)
+    implementation(Libraries.Compose.accompanistPermission)
+    implementation(Libraries.Compose.constraintCompose)
+    implementation(Libraries.Compose.animatedNavHost)
 
     //Coil
     implementation(Libraries.Compose.coilCompose)
-
-    // OkHttp
-    implementation(Libraries.OkHttp.bom)
-    implementation(Libraries.OkHttp.okHttp)
-    implementation(Libraries.OkHttp.loggingInterceptor)
-//    implementation(Libraries.OkHttp.prettyLoggingInterceptor) {
-//        exclude(group = "org.json", module = "json")
-//    }
-
-    // Paging
-    api(Libraries.Paging.runtime)
-    implementation(Libraries.Paging.common)
-    implementation(Libraries.Paging.pagingCompose)
 }

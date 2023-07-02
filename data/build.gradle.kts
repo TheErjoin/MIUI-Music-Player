@@ -12,6 +12,7 @@ android {
     defaultConfig {
         minSdk = AndroidConfig.minSdk
         targetSdk = AndroidConfig.targetSdk
+        vectorDrawables.useSupportLibrary = true
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -42,15 +43,6 @@ dependencies {
     implementation(Libraries.Retrofit.retrofit)
     implementation(Libraries.Retrofit.converterGson)
 
-    // OkHttp
-    implementation(Libraries.OkHttp.bom)
-    implementation(Libraries.OkHttp.okHttp)
-    implementation(Libraries.OkHttp.loggingInterceptor)
-
-    // Room
-    api(Libraries.Room.runtime)
-    ksp(Libraries.Room.compiler)
-
-    // Paging 3
-    api(Libraries.Paging.runtime)
+    //AndroidX
+    implementation(Libraries.AndroidX.preference)
 }

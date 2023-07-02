@@ -8,9 +8,21 @@
     <string name="recent">Недавние</string>
     <string name="all_songs">Все треки</string>
     <string name="tracks">Треки</string>
-    <string name="Performers">Исполнители</string>
-    <string name="Albums">Альбомы</string>
+    <string name="performers">Исполнители</string>
+    <string name="albums">Альбомы</string>
     <string name="packages">Папки</string>
+    <string name="play_track_random_order">В случайном порядке</string>
+    <string name="unknown_album">Неизвестный альбом</string>
+    <string name="unknown_performers">Неизвестный исполнитель</string>
+    <string name="grant_us_permission_to_display_the_list_of_songs">Предоставьте нам разрешение для того что бы отобразить список песен</string>
+    <string name="grant">Предоставить</string>
+    <!--endregion-->
+
+
+    <!--region Track Screen-->
+    <string name="lyrics_song">Текст песни</string>
+    <string name="no_text">Нет текста</string>
+    <string name="added">Добавить</string>
     <!--endregion-->
 
 </resources>
