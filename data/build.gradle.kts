@@ -1,20 +1,14 @@
-import Plugins.KSP.ksp
-
 plugins {
     id(Plugins.AGP.library)
     kotlin(Plugins.Kotlin.android)
-    id(Plugins.KSP.ksp) version Versions.KSP
 }
 
 android {
+    namespace = "kg.erjan.musicplayer.data"
     compileSdk = AndroidConfig.compileSdk
 
     defaultConfig {
         minSdk = AndroidConfig.minSdk
-        targetSdk = AndroidConfig.targetSdk
-        vectorDrawables.useSupportLibrary = true
-
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
@@ -27,11 +21,14 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = Options.compileOptions
+        targetCompatibility = Options.compileOptions
     }
     kotlinOptions {
-        jvmTarget = "1.8"
+        jvmTarget = Options.kotlinOptions
+    }
+    buildFeatures{
+        buildConfig = true
     }
 }
 

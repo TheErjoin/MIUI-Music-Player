@@ -36,7 +36,7 @@ fun MainGraphNavigation(playerRemote: MusicPlayerRemote, mainActivity: MainActiv
         }
         composable(
             route = Screen.TRACK_SCREEN.route,
-            enterTransition = { SlideTransition.slideUp.enterTransition() },
+            enterTransition = { SlideTransition.slideDown.enterTransition() },
             exitTransition = { SlideTransition.slideDown.exitTransition() },
             popEnterTransition = { FadeTransition.enterTransition() },
             popExitTransition = { SlideTransition.slideDown.exitTransition() }
