@@ -14,12 +14,10 @@ object Versions {
     const val composeCompiler = "1.5.8"
     const val composeMaterial = "1.5.4"
     const val coilCompose = "2.5.0"
-    const val accompanistPager = "0.33.2-alpha"
     const val accompanistPermission = "0.33.2-alpha"
     const val navigationCompose = "2.7.6"
     const val hiltNavigation = "1.1.0"
     const val preference = "1.2.0"
-    const val animationNavHost = "0.27.0"
 }
 
 object Libraries {
@@ -54,14 +52,8 @@ object Libraries {
             "androidx.hilt:hilt-navigation-compose:${Versions.hiltNavigation}"
         const val navigationCompose =
             "androidx.navigation:navigation-compose:${Versions.navigationCompose}"
-        const val animatedNavHost =
-            "com.google.accompanist:accompanist-navigation-animation:${Versions.animationNavHost}"
-        const val accompanistPager =
-            "com.google.accompanist:accompanist-pager:${Versions.accompanistPager}"
         const val accompanistPermission =
             "com.google.accompanist:accompanist-permissions:${Versions.accompanistPermission}"
-        const val accompanistPagerIndicators =
-            "com.google.accompanist:accompanist-pager-indicators:${Versions.accompanistPager}"
     }
 
     object Core {

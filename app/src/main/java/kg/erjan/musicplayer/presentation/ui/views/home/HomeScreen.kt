@@ -3,10 +3,14 @@ package kg.erjan.musicplayer.presentation.ui.views.home
 import android.content.Intent
 import android.net.Uri
 import android.provider.Settings
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.pager.PagerState
+import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
@@ -23,7 +27,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.google.accompanist.pager.*
 import com.google.accompanist.permissions.*
 import kg.erjan.musicplayer.R
 import kg.erjan.musicplayer.presentation.App
@@ -83,6 +86,7 @@ fun HomeComponents(auxiliary: Auxiliary) {
             PermissionStatus.Granted -> {
                 MusicTabs(auxiliary)
             }
+
             is PermissionStatus.Denied -> {
                 GrandPermission()
             }
@@ -130,11 +134,9 @@ private fun GrandPermission() {
     }
 }
 
-@OptIn(ExperimentalPagerApi::class)
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 private fun MusicTabs(auxiliary: Auxiliary) {
-    val pagerState = rememberPagerState(initialPage = 0)
-
     val tabData = listOf(
         stringResource(R.string.tracks),
         stringResource(R.string.performers),
@@ -142,21 +144,21 @@ private fun MusicTabs(auxiliary: Auxiliary) {
         stringResource(R.string.packages),
     )
 
+    val pagerState = rememberPagerState(initialPage = tabData.size) { 4 }
+
     Column {
         Tabs(pagerState = pagerState, tabData = tabData)
-        MusicTabsScreen(pagerState = pagerState, tabData = tabData, auxiliary = auxiliary)
+        MusicTabsScreen(pagerState = pagerState, auxiliary = auxiliary)
     }
 }
 
-@OptIn(ExperimentalPagerApi::class)
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 private fun MusicTabsScreen(
     pagerState: PagerState,
-    tabData: List<String>,
     auxiliary: Auxiliary
 ) {
     HorizontalPager(
-        count = tabData.size,
         state = pagerState,
     ) { page ->
         Column(
@@ -172,7 +174,7 @@ private fun MusicTabsScreen(
     }
 }
 
-@OptIn(ExperimentalPagerApi::class)
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 private fun Tabs(pagerState: PagerState, tabData: List<String>) {
 
@@ -182,10 +184,9 @@ private fun Tabs(pagerState: PagerState, tabData: List<String>) {
         selectedTabIndex = pagerState.currentPage,
         backgroundColor = Color.Transparent,
         divider = {},
-        indicator = { tabPositions ->
+        indicator = {
             TabRowDefaults.Indicator(
                 Modifier
-                    .pagerTabIndicatorOffset(pagerState, tabPositions)
                     .clip(RoundedCornerShape(2.dp)),
                 height = 4.dp,
                 color = Grape

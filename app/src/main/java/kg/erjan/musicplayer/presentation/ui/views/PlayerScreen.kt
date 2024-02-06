@@ -1,8 +1,13 @@
-package kg.erjan.musicplayer.presentation.ui.views.player
+package kg.erjan.musicplayer.presentation.ui.views
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.*
+import androidx.compose.foundation.interaction.InteractionSource
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.pager.PagerState
+import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.ripple.rememberRipple
@@ -16,10 +21,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
-import com.google.accompanist.pager.ExperimentalPagerApi
-import com.google.accompanist.pager.HorizontalPager
-import com.google.accompanist.pager.PagerState
-import com.google.accompanist.pager.rememberPagerState
 import kg.erjan.musicplayer.services.music.PlaybackState
 import kg.erjan.musicplayer.R
 import kg.erjan.musicplayer.presentation.ui.theme.*
@@ -27,10 +28,10 @@ import kg.erjan.musicplayer.presentation.ui.helpers.Auxiliary
 import kg.erjan.musicplayer.presentation.ui.helpers.DurationConvertor
 import kotlinx.coroutines.launch
 
-@OptIn(ExperimentalPagerApi::class)
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun PlayerScreen(auxiliary: Auxiliary) {
-    val pagerState = rememberPagerState(initialPage = 0)
+    val pagerState = rememberPagerState { 2 }
     val tabData = listOf(
         stringResource(R.string.tracks),
         stringResource(id = R.string.lyrics_song)
@@ -56,7 +57,9 @@ fun PlayerScreen(auxiliary: Auxiliary) {
 
 @Composable
 private fun PlaybackMusic(auxiliary: Auxiliary) {
-
+    val rememberedMutableInteractionSource = remember {
+        MutableInteractionSource()
+    }
     val isPlaying by remember {
         mutableStateOf(auxiliary.musicPlayerRemote.isPlaying)
     }
@@ -71,7 +74,7 @@ private fun PlaybackMusic(auxiliary: Auxiliary) {
             painter = painterResource(id = R.drawable.ic_repeat),
             contentDescription = null,
             modifier = Modifier.clickable(
-                interactionSource = MutableInteractionSource(),
+                interactionSource = rememberedMutableInteractionSource,
                 indication = rememberRipple(bounded = false)
             ) { /*TODO on Click repeat count music*/ }
         )
@@ -80,7 +83,7 @@ private fun PlaybackMusic(auxiliary: Auxiliary) {
             painter = painterResource(id = R.drawable.ic_skip_previous),
             contentDescription = null,
             modifier = Modifier.clickable(
-                interactionSource = MutableInteractionSource(),
+                interactionSource = rememberedMutableInteractionSource,
                 indication = rememberRipple(bounded = false)
             ) {
                 auxiliary.musicPlayerRemote.playPreviousSong()
@@ -111,7 +114,7 @@ private fun PlaybackMusic(auxiliary: Auxiliary) {
             painter = painterResource(id = R.drawable.ic_skip_next),
             contentDescription = null,
             modifier = Modifier.clickable(
-                interactionSource = MutableInteractionSource(),
+                interactionSource = rememberedMutableInteractionSource,
                 indication = rememberRipple(bounded = false)
             ) {
                 auxiliary.musicPlayerRemote.playNextSong()
@@ -122,18 +125,17 @@ private fun PlaybackMusic(auxiliary: Auxiliary) {
             painter = painterResource(id = R.drawable.ic_queue_music),
             contentDescription = null,
             modifier = Modifier.clickable(
-                interactionSource = MutableInteractionSource(),
+                interactionSource = rememberedMutableInteractionSource,
                 indication = rememberRipple(bounded = false)
             ) { /*TODO on Click choose queue music*/ }
         )
     }
 }
 
-@OptIn(ExperimentalPagerApi::class)
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 private fun LogoAndLyricsMusic(pagerState: PagerState, tabData: List<String>) {
     HorizontalPager(
-        count = tabData.size,
         state = pagerState,
     ) { page ->
         Column {
@@ -237,6 +239,9 @@ private fun MusicSlider(auxiliary: Auxiliary) {
 
 @Composable
 private fun MusicInfo(auxiliary: Auxiliary) {
+    val rememberedMutableInteractionSource = remember {
+        MutableInteractionSource()
+    }
     val isFavorite = remember { mutableStateOf(false) }
     val currentSong by remember {
         mutableStateOf(auxiliary.musicPlayerRemote.currentSong)
@@ -265,7 +270,7 @@ private fun MusicInfo(auxiliary: Auxiliary) {
             modifier = Modifier
                 .size(32.dp)
                 .clickable(
-                    interactionSource = MutableInteractionSource(),
+                    interactionSource = rememberedMutableInteractionSource,
                     indication = rememberRipple(bounded = false)
                 ) { isFavorite.value = !isFavorite.value }
                 .align(Alignment.TopEnd),
@@ -275,7 +280,7 @@ private fun MusicInfo(auxiliary: Auxiliary) {
     }
 }
 
-@OptIn(ExperimentalPagerApi::class)
+@ExperimentalFoundationApi
 @Composable
 private fun ToolbarMusicInfo(
     pagerState: PagerState,
@@ -308,7 +313,7 @@ private fun ToolbarMusicInfo(
     }
 }
 
-@OptIn(ExperimentalPagerApi::class)
+@ExperimentalFoundationApi
 @Composable
 private fun Tabs(pagerState: PagerState, tabData: List<String>, modifier: Modifier) {
 
