@@ -1,27 +1,23 @@
 object Versions {
-    const val AGP = "7.3.0"
-    const val kotlin = "1.7.20"
+    const val AGP = "8.1.2"
+    const val kotlin = "1.9.22"
     const val coroutines = "1.6.4"
     const val core = "1.9.0"
     const val splashScreen = "1.0.0"
     const val activity = "1.6.0"
     const val lifecycle = "2.5.1"
-    const val dagger = "2.44"
+    const val dagger = "2.50"
     const val retrofit = "2.9.0"
-    const val KSP = "1.7.21-1.0.8"
+    const val KSP = "1.9.22-1.0.16"
     const val constraintCompose = "1.0.1"
-    const val composeUiVersion = "1.4.0-alpha02"
-    const val composeCompiler = "1.3.2"
-    const val composeFoundation = "1.2.1"
-    const val composeMaterial = "1.2.1"
-    const val composeRuntime = "1.2.1"
-    const val coilCompose = "2.2.2"
-    const val accompanistPager = "0.28.0"
-    const val accompanistPermission = "0.28.0"
-    const val navigationCompose = "2.5.3"
-    const val hiltNavigation = "1.0.0"
+    const val composeUiVersion = "1.5.4 "
+    const val composeCompiler = "1.5.8"
+    const val composeMaterial = "1.5.4"
+    const val coilCompose = "2.5.0"
+    const val accompanistPermission = "0.33.2-alpha"
+    const val navigationCompose = "2.7.6"
+    const val hiltNavigation = "1.1.0"
     const val preference = "1.2.0"
-    const val animationNavHost = "0.27.0"
 }
 
 object Libraries {
@@ -56,14 +52,8 @@ object Libraries {
             "androidx.hilt:hilt-navigation-compose:${Versions.hiltNavigation}"
         const val navigationCompose =
             "androidx.navigation:navigation-compose:${Versions.navigationCompose}"
-        const val animatedNavHost =
-            "com.google.accompanist:accompanist-navigation-animation:${Versions.animationNavHost}"
-        const val accompanistPager =
-            "com.google.accompanist:accompanist-pager:${Versions.accompanistPager}"
         const val accompanistPermission =
             "com.google.accompanist:accompanist-permissions:${Versions.accompanistPermission}"
-        const val accompanistPagerIndicators =
-            "com.google.accompanist:accompanist-pager-indicators:${Versions.accompanistPager}"
     }
 
     object Core {

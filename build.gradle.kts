@@ -4,5 +4,8 @@ plugins {
     kotlin(Plugins.Kotlin.android) version Versions.kotlin apply false
 
     // Hilt
-    id(Plugins.Hilt.plugin) version Versions.dagger apply false
+    id(Plugins.Hilt.plugin) version Versions.   dagger apply false
+
+    // KSP
+    id(Plugins.KSP.ksp) version Versions.KSP apply false
 }
